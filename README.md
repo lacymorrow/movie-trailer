@@ -1,0 +1,80 @@
+# movie-trailer [![Build Status](https://travis-ci.org/lacymorrow/movie-trailer.svg?branch=master)](https://travis-ci.org/lacymorrow/movie-trailer)
+
+> Get movie trailer url(s) in node: "Oceans Eleven" ➔ http://path/to/trailer
+
+
+## Install
+
+```bash
+$ npm install --save movie-trailer
+```
+
+
+## Usage
+
+```js
+
+var movieTrailer = require('movie-trailer');
+
+movieTrailer('Oceans Eleven', function (err, url) {
+    console.log(url);
+    //=> http://path/to/trailer
+});
+
+movieTrailer('Oceans Eleven', '1960', function (err, url) {
+    console.log(url);
+    //=> http://path/to/trailer
+});
+```
+
+## API
+
+### movieTrailer(movie [, year ], callback)
+
+#### movie
+
+*Required*  
+Type: `string`
+
+Movie to search for.
+
+
+#### year
+
+Type: `string` 
+
+Optional movie year.
+
+#### callback(err, url)
+
+
+#### callback(err, url)
+
+
+## CLI
+
+You can also use it as a CLI app by installing it globally:
+
+```bash
+$ npm install --global movie-trailer
+```
+
+#### Usage
+
+```bash
+$ movie-trailer --help
+
+Usage
+  $ movie-trailer movie [year]
+
+Example
+  $ movie-trailer 'Oceans Eleven' 1960
+  http://path/to/trailer
+```
+
+
+## License
+
+This package uses data from TMDB. You may consult [TMDB terms of service](https://www.themoviedb.org/documentation/api/terms-of-use) for usage rights.
+
+[MIT](http://opensource.org/licenses/MIT) © [Lacy Morrow](http://lacymorrow.com)

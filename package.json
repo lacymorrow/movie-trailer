@@ -1,0 +1,38 @@
+{
+  "name": "movie-trailer",
+  "version": "1.0.0",
+  "description": "Get movie trailer url(s): Oceans Eleven ➔ http://path/to/trailer",
+  "license": "MIT",
+  "repository": "lacymorrow/movie-trailer",
+  "bin": {
+    "movie-art": "cli.js"
+  },
+  "author": {
+    "name": "Lacy Morrow",
+    "email": "me@lacymorrow.com",
+    "url": "http://lacymorrow.com"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "files": [
+    "cli.js",
+    "index.js"
+  ],
+  "keywords": [
+    "cli",
+    "bin",
+    "app",
+    "movie",
+    "trailer",
+    "url",
+    "uri",
+    "path"
+  ],
+  "devDependencies": {
+    "mocha": "*"
+  }
+}

@@ -35,7 +35,7 @@ movieTrailer('Oceans Eleven', '1960', true, function (err, url) {
 
 ## API
 
-### movieTrailer(movie [, year ] [, --multi ], callback)
+### movieTrailer(movie [, year ] [, multi ], callback)
 
 #### movie
 
@@ -83,7 +83,7 @@ $ npm install --global movie-trailer
 $ movie-trailer --help
 
 Usage
-  $ movie-trailer movie [year]
+  $ movie-trailer movie [year] [--multi]
 
 Example
   $ movie-trailer 'Oceans Eleven' 1960

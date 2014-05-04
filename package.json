@@ -1,6 +1,6 @@
 {
   "name": "movie-trailer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Get movie trailer url(s): Oceans Eleven ➔ http://path/to/trailer",
   "license": "MIT",
   "repository": {
@@ -8,7 +8,7 @@
     "url": "git://github.com/lacymorrow/movie-trailer"
   },
   "bin": {
-    "movie-art": "cli.js"
+    "movie-trailer": "cli.js"
   },
   "author": {
     "name": "Lacy Morrow",

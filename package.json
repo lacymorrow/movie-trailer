@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Get movie trailer url(s): Oceans Eleven ➔ http://path/to/trailer",
   "license": "MIT",
-  "repository": "lacymorrow/movie-trailer",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lacymorrow/movie-trailer"
+  },
   "bin": {
     "movie-art": "cli.js"
   },
@@ -34,5 +37,13 @@
   ],
   "devDependencies": {
     "mocha": "*"
-  }
+  },
+  "readme": "# movie-trailer [![Build Status](https://travis-ci.org/lacymorrow/movie-trailer.svg?branch=master)](https://travis-ci.org/lacymorrow/movie-trailer)\n\n> Get movie trailer url(s) in node: \"Oceans Eleven\" ➔ http://path/to/trailer\n\n\n## Install\n\n```bash\n$ npm install --save movie-trailer\n```\n\n\n## Usage\n\n```js\n\nvar movieTrailer = require('movie-trailer');\n\nmovieTrailer('Oceans Eleven', function (err, url) {\n    console.log(url);\n    //=> http://path/to/trailer\n});\n\nmovieTrailer('Oceans Eleven', '1960', function (err, url) {\n    console.log(url);\n    //=> http://path/to/trailer\n});\n```\n\n## API\n\n### movieTrailer(movie [, year ], callback)\n\n#### movie\n\n*Required*  \nType: `string`\n\nMovie to search for.\n\n\n#### year\n\nType: `string` \n\nOptional movie year.\n\n#### callback(err, url)\n\n\n#### callback(err, url)\n\n\n## CLI\n\nYou can also use it as a CLI app by installing it globally:\n\n```bash\n$ npm install --global movie-trailer\n```\n\n#### Usage\n\n```bash\n$ movie-trailer --help\n\nUsage\n  $ movie-trailer movie [year]\n\nExample\n  $ movie-trailer 'Oceans Eleven' 1960\n  http://path/to/trailer\n```\n\n\n## License\n\nThis package uses data from TMDB. You may consult [TMDB terms of service](https://www.themoviedb.org/documentation/api/terms-of-use) for usage rights.\n\n[MIT](http://opensource.org/licenses/MIT) © [Lacy Morrow](http://lacymorrow.com)\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/lacymorrow/movie-trailer/issues"
+  },
+  "homepage": "https://github.com/lacymorrow/movie-trailer",
+  "_id": "movie-trailer@1.0.0",
+  "_from": "movie-trailer@"
 }

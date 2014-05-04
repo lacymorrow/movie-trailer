@@ -25,11 +25,17 @@ movieTrailer('Oceans Eleven', '1960', function (err, url) {
     console.log(url);
     //=> http://path/to/trailer
 });
+
+movieTrailer('Oceans Eleven', '1960', true, function (err, url) {
+    // Multi
+    console.log(url);
+    //=> { ... } 
+});
 ```
 
 ## API
 
-### movieTrailer(movie [, year ], callback)
+### movieTrailer(movie [, year ] [, --multi ], callback)
 
 #### movie
 
@@ -46,6 +52,18 @@ Type: `string`
 Optional movie year.
 
 #### callback(err, url)
+
+
+#### callback(err, url)
+
+
+#### multi
+
+Type: `boolean` 
+
+Optional return results object instead of url.
+
+use `-m` or `--multi`
 
 
 #### callback(err, url)

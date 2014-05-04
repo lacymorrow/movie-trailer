@@ -17,15 +17,12 @@ module.exports = function (movie, year, multi, cb) {
 	
 	if (typeof year === 'function') {
 		search.cb = year;
-		year = null;
+		year = multi = null;
+	} else if (typeof multi === 'function') {
+		search.cb = multi;
+		multi = false;
 	}
-	if (movie === null){
-		getConfig(search);
-	} else if (typeof movie === 'function') {
-		search.cb = movie;
-		search.movie = null;
-		getConfig(search);
-	} else if (typeof movie !== 'string') {
+	if (typeof movie !== 'string') {
 		throw new Error('Expected a string');
 	} else {
 		search.year = year;

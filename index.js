@@ -49,7 +49,12 @@ function getConfig (search) {
 		}
 	  });
 	}).on("error", function(e){
-		search.cb('Got error: ' + e.message);
+		if(search.year !== null){
+			search.year = null;
+			getConfig(search);
+		} else {
+			search.cb('Got error: ' + e.message);
+		}
 	});
 }
 

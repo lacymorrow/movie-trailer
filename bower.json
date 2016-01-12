@@ -1,0 +1,32 @@
+{
+  "name": "movie-trailer",
+  "description": "Get movie trailer url(s): Oceans Eleven ➔ http://path/to/trailer",
+  "main": "index.js",
+  "authors": [
+    "Lacy Morrow<me@lacymorrow.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "cli",
+    "bin",
+    "app",
+    "movie",
+    "trailer",
+    "url",
+    "uri",
+    "path"
+  ],
+  "homepage": "https://github.com/lacymorrow/movie-trailer",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

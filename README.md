@@ -6,27 +6,24 @@
 ## Install
 
 ```bash
-$ npm install --save movie-trailer
+npm install --save movie-trailer
 ```
 
 
 ## Usage
 
 ```js
+const movieTrailer = require('movie-trailer');
 
-var movieTrailer = require('movie-trailer');
-
-movieTrailer('Oceans Eleven', function (err, url) {
-    console.log(url);
-    //=> http://path/to/trailer
+movieTrailer('Oceans Eleven', (err, url) => {
+    console.log(url); //=> http://path/to/trailer
 });
 
-movieTrailer('Oceans Eleven', '1960', function (err, url) {
-    console.log(url);
-    //=> http://path/to/trailer
+movieTrailer('Oceans Eleven', '1960', (err, url) => {
+    console.log(url); //=> http://path/to/trailer
 });
 
-movieTrailer('Oceans Eleven', '1960', true, function (err, url) {
+movieTrailer('Oceans Eleven', '1960', true, (err, url) => {
     // Multi
     console.log(url);
     //=> { ... } 

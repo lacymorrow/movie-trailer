@@ -88,6 +88,13 @@ Example
 ```
 
 
+## Related
+
+* [album-art](https://github.com/lacymorrow/album-art)
+* [movie-art](https://github.com/lacymorrow/movie-art)
+* [movie-info](https://github.com/lacymorrow/movie-info)
+
+
 ## License
 
 This package uses data from TMDB. You may consult [TMDB terms of service](https://www.themoviedb.org/documentation/api/terms-of-use) for usage rights.

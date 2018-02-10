@@ -10,9 +10,9 @@ var cb = function (err, url) {
 		process.exit(1);
 	}
 	console.log(url);
-}
+};
 
-function help() {
+var help = function () {
 	console.log(pkg.description);
 	console.log('');
 	console.log('Usage');
@@ -21,7 +21,7 @@ function help() {
 	console.log('Example');
 	console.log('  $ movie-trailer \'Oceans Eleven\' 1960');
 	console.log('  http://path/to/trailer');
-}
+};
 
 if (process.argv.indexOf('-h') !== -1 || process.argv.indexOf('--help') !== -1) {
 	help();

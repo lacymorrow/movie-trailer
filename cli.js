@@ -1,48 +1,43 @@
 #!/usr/bin/env node
-'use strict';
-var pkg = require('./package.json');
-var movieTrailer = require('./index');
-var movie = process.argv[2];
+'use strict'
+const meow = require( 'meow' )
+const movieTrailer = require('./index')
 
-var cb = function (err, url) {
-	if (err) {
-		console.error(err);
-		process.exit(1);
-	}
-	console.log(url);
-};
 
-var help = function () {
-	console.log(pkg.description);
-	console.log('');
-	console.log('Usage');
-	console.log('  $ movie-trailer movie [year]');
-	console.log('');
-	console.log('Example');
-	console.log('  $ movie-trailer \'Oceans Eleven\' 1960');
-	console.log('  http://path/to/trailer');
-};
+const cli = meow( `
+	Usage
+	  $ movie-trailer movie [year]
 
-if (process.argv.indexOf('-h') !== -1 || process.argv.indexOf('--help') !== -1) {
-	help();
-	return;
+	Options
+        --year,  -year  Specify a release year to search
+		--multi, -m     Returns an array of URLs instead of a single URL
+
+	Example
+	  $ movie-trailer Avatar
+	  // => http://path/to/trailer
+`, {
+		flags: {
+			multi: {
+				alias: 'm'
+			},
+			year: {
+				type: 'string',
+				alias: 'y'
+			}
+		}
+	} )
+
+let opts = {
+	multi: false,
+	year: null
 }
 
-if (process.argv.indexOf('-v') !== -1 || process.argv.indexOf('--version') !== -1) {
-	console.log(pkg.version);
-	return;
-}
+if ( cli.flags.m ) opts.multi = !!cli.flags.m
+if ( cli.flags.y ) opts.year = cli.flags.y
+if ( !cli.input[0] ) cli.showHelp()
 
-var multi = false;
-if (process.argv.indexOf('-m') !== -1 || process.argv.indexOf('--multi') !== -1) {
-	multi = true;
-}
-
-var argc = process.argv.length;
-if (argc === 3){
-	movieTrailer(movie, null, multi, cb);
-} else if (!isNaN(parseFloat(process.argv[3])) && isFinite(process.argv[3])){
-	movieTrailer(movie, process.argv[3], multi, cb);
-} else {
-	help();
-}
+// Search artist, album and size
+// albumArt( cli.input[0], opts ).then( console.log )
+movieTrailer( cli.input[0], opts.year, opts.multi, function (err,res){
+	console.log(res)
+});

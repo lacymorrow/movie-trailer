@@ -3,6 +3,8 @@
   "version": "1.0.4",
   "description": "Get movie trailer url(s): Oceans Eleven ➔ http://path/to/trailer",
   "license": "MIT",
+  "main": "index.js",
+  "browser": "index.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/lacymorrow/movie-trailer"
@@ -43,6 +45,7 @@
     "url": "https://github.com/lacymorrow/movie-trailer/issues"
   },
   "homepage": "https://github.com/lacymorrow/movie-trailer",
-  "_id": "movie-trailer@1.0.0",
-  "_from": "movie-trailer@"
+  "dependencies": {
+    "meow": "^4.0.0"
+  }
 }

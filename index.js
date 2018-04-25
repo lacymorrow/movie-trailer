@@ -1,87 +1,174 @@
 'use strict';
-module.exports = function (movie, year, multi, cb) {
-	var search = {
-		key: '9d2bff12ed955c7f1f74b83187f188ae',
-		protocol: require('https'),
-		cb: cb,
-		id: null,
-		year: null,
-		multi: multi,
-		movie: movie,
-		options: {
-			host: 'api.themoviedb.org',
-			port: 443,
-			path: null
-		}
-	}
-	
-	if (typeof year === 'function') {
-		search.cb = year;
-		year = multi = null;
-	} else if (typeof multi === 'function') {
-		search.cb = multi;
-		multi = false;
-	}
-	if (typeof movie !== 'string') {
-		throw new Error('Expected a string');
+
+( function ( root, cx ) {
+
+	if ( typeof define === 'function' && define.amd ) {
+
+		// AMD
+		define( ['fetch'], cx )
+
+	} else if ( typeof exports === 'object' ) {
+
+		// Node, CommonJS-like
+		module.exports = cx( require( 'node-fetch' ) )
+
 	} else {
-		search.year = year;
-		getConfig(search);
+
+		// Browser globals (root is window)
+		root.movieTrailer = cx( root.fetch )
+
 	}
-};
 
-function getConfig (search) {
-	var data = '';
-	search.options.path = encodeURI('/3/search/movie?api_key=' + search.key + '&query=' + search.movie + ((search.year !== null) ? '&year='+search.year : ''));
-	search.protocol.get(search.options, function(resp){
-	  resp.on('data', function(chunk){
-		data += chunk;
-	  });
-	  resp.on('end', function(){
-		var json = JSON.parse(data);
-		if (typeof(json.status_message) !== 'undefined'){
-			search.cb('Got error: ' + json.status_message);
-		} else if (json.results.length === 0){
-			// Retry failed search without year
-			if(search.year !== null){
-				search.year = null;
-				getConfig(search);
-			} else {
-				search.cb('Got error: ' + 'No results found');
-			}
-		} else {
-			search.mid = json.results[0].id;
-			getMovie(search);
-		}
-	  });
-	}).on("error", function(e){
-		search.cb('Got error: ' + e.message);
-	});
-}
+} )( this, function ( fetch ) {
 
-function getMovie(search) {
-	var data = '';
-	search.options.path = encodeURI('/3/movie/'+ search.mid + '/videos?api_key=' + search.key);
-	search.protocol.get(search.options, function(resp){
-	  resp.on('data', function(chunk){
-		data += chunk;
-	  });
-	  resp.on('end', function(){
-		var json = JSON.parse(data);
-		if (typeof(json.status_message) !== 'undefined'){
-			search.cb('Got error: ' + json.status_message);
-		} else if (json.results.length === 0){
-			search.cb('Got error: ' + 'No results found')
-		} else if(search.multi){
-			search.cb(null, json.results);
-		} else {
-			var youtube = json.results.filter(function(obj) {
-			    return (obj.site.toLowerCase() === "youtube");
-			});
-			search.cb(null, encodeURI('https://www.youtube.com/watch?v=' + json.results[0].key));
+	// Public Key on purpose
+	const apiKey = '9d2bff12ed955c7f1f74b83187f188ae'
+
+	function getMovieId ( search, year ) {
+
+		/* Fetch a Movie ID for querying the TMDB API */
+
+		const url = 'https://api.themoviedb.org' + encodeURI( '/3/search/movie?api_key=' + apiKey + '&query=' + search + ( ( year !== null ) ? '&year=' + year : '' ) )
+
+		const response = fetch( url, {
+			method: 'GET'
+		} )
+			.then(
+				res => res.json(),
+				err => Promise.reject( err.message ) )
+			.then( json => {
+
+				if ( typeof ( json.status_message ) !== 'undefined' ) {
+
+					// Error
+					return Promise.reject( new Error( `JSON - ${json.status_message}` ) )
+
+				} else if ( json.results.length === 0 ) {
+
+					// Retry failed search without year
+					if ( year !== null ) {
+
+						getMovieId( search )
+
+					} else {
+
+						// Error
+						return Promise.reject( new Error( 'API - No results found' ) )
+
+					}
+
+				} else {
+
+					return json.results[0].id
+
+				}
+
+			} )
+			.catch( error => error )
+
+		return response
+
+	}
+
+	function getTrailer ( movieId, multi ) {
+
+		/* Fetch single or multiple movie trailers via the TMDB API */
+		const url = 'https://api.themoviedb.org' + encodeURI( '/3/movie/' + movieId + '/videos?api_key=' + apiKey )
+		const response = fetch( url, {
+			method: 'GET'
+		} )
+			.then(
+				res => res.json(),
+				err => Promise.reject( err.message )
+			)
+			.then( json => {
+
+				if ( typeof ( json.status_message ) !== 'undefined' ) {
+
+					// Error
+					return Promise.reject( new Error( `JSON - ${json.status_message}` ) )
+
+				} else if ( json.results.length === 0 ) {
+
+					// Error
+					return Promise.reject( new Error( 'API - No results found' ) )
+
+				} else if ( multi ) {
+
+					// Return *unique* urls
+					return Array.from( new Set( json.results.map( e => encodeURI( 'https://www.youtube.com/watch?v=' + e.key ) ) ) )
+
+				} else {
+
+					return encodeURI( 'https://www.youtube.com/watch?v=' + json.results[0].key )
+
+				}
+
+			} )
+
+		return response
+
+	}
+
+	function movieTrailer ( movie, options, cb ) {
+
+		/* Fetch movie trailers */
+
+		// Massage inputs
+		let opts = {
+			multi: false,
+			year: null
 		}
-	  });
-	}).on("error", function(e){
-		search.cb('Got error: ' + e.message);
-	});
-}
+		if ( typeof movie !== 'string' ) {
+
+			throw new Error( 'Expected first parameter to be a movie (string)' )
+
+		} else if ( typeof options === 'function' ) {
+
+			// Second parameter is the callback
+			cb = options
+			options = null
+
+		} else if ( typeof options === 'boolean' || ( typeof options === 'string' && options === 'true' ) ) {
+
+			// Second parameter is multi
+			opts.multi = options
+
+		} else if ( typeof options === 'string' || typeof options === 'number' ) {
+
+			// Second parameter is year
+			opts.year = options
+
+		} else if ( typeof options === 'object' ) {
+
+			// Set options
+			opts = Object.assign( opts, options )
+
+		}
+
+		// Remove invalid callback
+		if ( typeof cb !== 'function' ) cb = null
+
+		const response = getMovieId( movie, opts.year )
+			.then( movieId => {
+
+				return getTrailer( movieId, opts.multi )
+
+			} )
+
+		// Callback
+		if ( cb ) {
+
+			return response.then( res => cb( null, res ), err => cb( err, null ) )
+
+		}
+
+		// Promise
+		return response
+
+	}
+
+	// exposed public method
+	return movieTrailer
+
+} )

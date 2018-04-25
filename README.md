@@ -1,15 +1,34 @@
-# movie-trailer [![npm version](https://badge.fury.io/js/movie-trailer.svg)](https://badge.fury.io/js/movie-trailer) [![Build Status](https://travis-ci.org/lacymorrow/movie-trailer.svg?branch=master)](https://travis-ci.org/lacymorrow/movie-trailer)
+# movie-trailer [![npm version](https://badge.fury.io/js/movie-trailer.svg)](https://badge.fury.io/js/movie-trailer) [![Build Status](https://travis-ci.org/lacymorrow/movie-trailer.svg?branch=master)](https://travis-ci.org/lacymorrow/movie-trailer) [![Try movie-trailer on RunKit](https://badge.runkitcdn.com/movie-trailer.svg)](https://npm.runkit.com/movie-trailer)
 
 > Get movie trailer url(s) in node: "Oceans Eleven" ➔ http://path/to/trailer
 
-[![movie-trailer](demo.svg)]()
+[![movie-trailer](https://github.com/lacymorrow/movie-trailer/raw/master/demo.svg?sanitize=true)]()
+
+#### [Try it on RunKit](https://runkit.com/lacymorrow/movie-trailer) _([Output](https://runkit.io/lacymorrow/movie-trailer/branches/master?search=Avatar))_
+
+
+## Features
+ * Fetch Youtube trailers for any movie
+ * Return a single or multiple trailers.
+ * Use anywhere, browser or Node - UMD _([Browser Support](https://caniuse.com/#feat=fetch))_
+ * Promise and Callback API
 
 
 ## Install
 
+Using [NPM](https://npmjs.com):
+
 ```bash
-npm install --save movie-trailer
+npm install --global movie-trailer
 ```
+
+In the browser:
+
+```html
+<!-- movieInfo window global -->
+<script type="text/javascript" src="https://unpkg.com/movie-trailer"></script>
+```
+(via Unpkg, or via [JSDelivr](https://cdn.jsdelivr.net/npm/movie-trailer/index.min.js"))
 
 
 ## Usage
@@ -17,66 +36,82 @@ npm install --save movie-trailer
 ```js
 const movieTrailer = require('movie-trailer');
 
-movieTrailer('Oceans Eleven', (err, url) => {
-    console.log(url); //=> http://path/to/trailer
-});
+movieTrailer('Oceans Eleven').then(console.log)
 
-movieTrailer('Oceans Eleven', '1960', (err, url) => {
-    console.log(url); //=> http://path/to/trailer
-});
+//=> http://path/to/trailer
+```
 
-movieTrailer('Oceans Eleven', '1960', true, (err, url) => {
-    // Multi
-    console.log(url);
-    //=> { ... } 
-});
+##### Search using release date year
+```js
+movieTrailer('Oceans Eleven', 1960)
+  .then( response => console.log( response ) )
+
+//=> http://path/to/trailer
+```
+
+##### Return an array of URLs
+```js
+movieTrailer('Oceans Eleven', true)
+  .then( response => console.log( response ) )
+  
+//=> [ ... ]
+```
+
+##### Both
+```js
+movieTrailer( 'Oceans Eleven', {year: '1960', multi: true} )
+  .then( response => console.log( response ) )
+
+//=> [ ... ]
+```
+
+###### Callback
+```
+movieTrailer( 'Oceans Eleven', ( error, response ) => {
+    console.log( response ); 
+    //=> http://path/to/trailer
+} )
+
 ```
 
 ## API
 
-### movieTrailer(movie [, year ] [, multi ], callback)
+### movieTrailer(movie [, options ] [, callback])
 
 #### movie
 
 *Required*  
+
 Type: `string`
 
 Movie to search for.
 
 
-#### year
+#### options 
 
-Type: `string` 
+Type: `object`
+
+##### year
+
+Type: `string` || `number`
 
 Optional movie year.
 
-#### callback(err, url)
-
-
-#### callback(err, url)
-
-
-#### multi
+##### multi
 
 Type: `boolean` 
 
-Optional return results object instead of url.
+Optionally return array of urls instead of a single url.
 
 use `-m` or `--multi`
 
 
-#### callback(err, url)
+#### callback(error, response)
+
+Callback function.
 
 
-## CLI
-
-You can also use it as a CLI app by installing it globally:
-
-```bash
-$ npm install --global movie-trailer
-```
-
-#### Usage
+#### From the command line
 
 ```bash
 $ movie-trailer --help
@@ -86,7 +121,7 @@ Usage
 
 Example
   $ movie-trailer 'Oceans Eleven' 1960
-  http://path/to/trailer
+  //=> http://path/to/trailer
 ```
 
 

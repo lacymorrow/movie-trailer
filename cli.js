@@ -13,13 +13,14 @@ const cli = meow(
 	  --multi, -m     Returns an array of URLs instead of a single URL
 
 	Example
-	  $ movie-trailer Avatar
+	  $ movie-trailer Avatar --year 2009
 	  // => http://path/to/trailer
 `,
 	{
 		flags: {
 			multi: {
-				alias: 'm'
+				alias: 'm',
+				type: 'boolean'
 			},
 			year: {
 				type: 'string',
@@ -38,13 +39,4 @@ if ( cli.flags.m ) opts.multi = !!cli.flags.m
 if ( cli.flags.y ) opts.year = cli.flags.y
 if ( !cli.input[0] ) cli.showHelp()
 
-// Search artist, album and size
-// albumArt( cli.input[0], opts ).then( console.log )
-movieTrailer( cli.input[0], opts.year, opts.multi, function ( err, res ) {
-
-	err && console.log( err )
-	console.log( res )
-
-} )
-
-movieTrailer( cli.input[0], opts).then( console.log )
+movieTrailer( cli.input[0], opts ).then( console.log )

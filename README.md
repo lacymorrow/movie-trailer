@@ -1,6 +1,6 @@
 # movie-trailer [![npm version](https://badge.fury.io/js/movie-trailer.svg)](https://badge.fury.io/js/movie-trailer) [![Build Status](https://travis-ci.org/lacymorrow/movie-trailer.svg?branch=master)](https://travis-ci.org/lacymorrow/movie-trailer) [![Try movie-trailer on RunKit](https://badge.runkitcdn.com/movie-trailer.svg)](https://npm.runkit.com/movie-trailer)
 
-> Get movie trailer url(s) in node: "Oceans Eleven" ➔ http://path/to/trailer
+> Fetch movie trailer url(s): "Oceans Eleven" ➔ http://path/to/trailer
 
 [![movie-trailer](https://github.com/lacymorrow/movie-trailer/raw/master/demo.svg?sanitize=true)]()
 
@@ -9,7 +9,7 @@
 
 ## Features
  * Fetch Youtube trailers for any movie
- * Return a single or multiple trailers.
+ * Return one or many trailer URLs
  * Use anywhere, browser or Node - UMD _([Browser Support](https://caniuse.com/#feat=fetch))_
  * Promise and Callback API
 
@@ -36,9 +36,9 @@ In the browser:
 ```js
 const movieTrailer = require('movie-trailer');
 
-movieTrailer('Oceans Eleven').then(console.log)
+movieTrailer('Crash').then(console.log)
 
-//=> http://path/to/trailer
+//=> https://www.youtube.com/watch?v=durNwe9pL0E
 ```
 
 ##### Search using release date year
@@ -117,7 +117,7 @@ Callback function.
 $ movie-trailer --help
 
 Usage
-  $ movie-trailer movie [year] [--multi]
+  $ movie-trailer movie [--year] [--multi]
 
 Example
   $ movie-trailer 'Oceans Eleven' 1960

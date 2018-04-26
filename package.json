@@ -1,6 +1,6 @@
 {
   "name": "movie-trailer",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "Get movie trailer url(s): Oceans Eleven ➔ http://path/to/trailer",
   "license": "MIT",
   "main": "index.js",
@@ -21,7 +21,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "ava"
+    "test": "ava --verbose"
   },
   "files": [
     "cli.js",

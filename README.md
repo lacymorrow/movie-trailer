@@ -28,7 +28,7 @@ In the browser:
 <!-- movieInfo window global -->
 <script type="text/javascript" src="https://unpkg.com/movie-trailer"></script>
 ```
-(via Unpkg, or via [JSDelivr](https://cdn.jsdelivr.net/npm/movie-trailer/index.min.js"))
+(via Unpkg, or via [JSDelivr](https://cdn.jsdelivr.net/npm/movie-trailer/index.min.js))
 
 
 ## Usage
@@ -97,13 +97,15 @@ Type: `string` || `number`
 
 Optional movie year.
 
+Use `-y` or `--year` on the CLI
+
 ##### multi
 
 Type: `boolean` 
 
 Optionally return array of urls instead of a single url.
 
-use `-m` or `--multi`
+Use `-m` or `--multi` on the CLI
 
 
 #### callback(error, response)
@@ -117,7 +119,7 @@ Callback function.
 $ movie-trailer --help
 
 Usage
-  $ movie-trailer movie [--year] [--multi]
+  $ movie-trailer movie [year] [multi]
 
 Example
   $ movie-trailer 'Oceans Eleven' 1960

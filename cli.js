@@ -6,14 +6,14 @@ const movieTrailer = require( './index' )
 const cli = meow(
 	`
 	Usage
-	  $ movie-trailer movie [year]
+	  $ movie-trailer movie [year] [multi]
 
 	Options
 	  --year,  -year  Specify a release year to search
 	  --multi, -m     Returns an array of URLs instead of a single URL
 
 	Example
-	  $ movie-trailer Avatar --year 2009
+	  $ movie-trailer 'Oceans Eleven' --year 1960
 	  // => http://path/to/trailer
 `,
 	{

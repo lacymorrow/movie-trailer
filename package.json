@@ -1,6 +1,6 @@
 {
   "name": "movie-trailer",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Get movie trailer url(s): Oceans Eleven ➔ http://path/to/trailer",
   "license": "MIT",
   "main": "index.js",

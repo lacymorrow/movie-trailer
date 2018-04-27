@@ -107,6 +107,8 @@ Optionally return array of urls instead of a single url.
 
 Use `-m` or `--multi` on the CLI
 
+*You may specify either option or an object containing `multi` and `year` properties*
+
 
 #### callback(error, response)
 

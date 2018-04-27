@@ -110,7 +110,7 @@
 
 	}
 
-	function movieTrailer ( movie, options, cb ) {
+	function movieTrailer ( movie, options, cb, legacy ) {
 
 		/* Fetch movie trailers */
 
@@ -138,6 +138,16 @@
 
 			// Second parameter is year
 			opts.year = options
+
+			/* BACKWARDS-COMPATABILITY FOR v1 */
+			if ( typeof legacy === 'function' && ( typeof cb === 'boolean' || ( typeof cb === 'string' && cb === 'true' ) ) ) {
+
+				// Third parameter is multi
+				opts.multi = cb
+				cb = legacy
+
+			}
+			/* END BACKWARDS-COMPATABILITY */
 
 		} else if ( typeof options === 'object' ) {
 
@@ -168,7 +178,7 @@
 
 	}
 
-	// exposed public method
+	// Exposed public method
 	return movieTrailer
 
 } )

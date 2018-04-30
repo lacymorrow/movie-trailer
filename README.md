@@ -78,41 +78,41 @@ movieTrailer( 'Oceans Eleven', ( error, response ) => {
 
 ### movieTrailer(movie [, options ] [, callback])
 
-#### movie
+* #### movie
 
-**Required**
+	**Required**
 
-Type: `string`
+	Type: `string`
 
-Movie to search for.
-
-
-#### options 
-
-Type: `object`
-
-* ##### year
-
-	Type: `string` || `number`
-
-	Optional movie year.
-
-	Use `-y` or `--year` on the CLI
-
-* ##### multi
-
-	Type: `boolean` 
-
-	Optionally return array of urls instead of a single url.
-
-	Use `-m` or `--multi` on the CLI
-
-***You may specify either option or an object containing `multi` and `year` properties***
+	Movie to search for.
 
 
-#### callback(error, response)
+* #### options 
 
-Callback function.
+	Type: `object`
+
+	* ##### year
+
+		Type: `string` || `number`
+
+		Optional movie year.
+
+		Use `-y` or `--year` on the CLI
+
+	* ##### multi
+
+		Type: `boolean` 
+
+		Optionally return array of urls instead of a single url.
+
+		Use `-m` or `--multi` on the CLI
+
+	***You may specify either option or an object containing `multi` and `year` properties***
+
+
+* #### callback(error, response)
+
+	Callback function.
 
 
 #### From the command line

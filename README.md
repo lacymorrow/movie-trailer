@@ -66,7 +66,7 @@ movieTrailer( 'Oceans Eleven', {year: '1960', multi: true} )
 ```
 
 ###### Callback
-```
+```js
 movieTrailer( 'Oceans Eleven', ( error, response ) => {
     console.log( response ); 
     //=> http://path/to/trailer
@@ -80,7 +80,7 @@ movieTrailer( 'Oceans Eleven', ( error, response ) => {
 
 #### movie
 
-*Required*  
+**Required**
 
 Type: `string`
 
@@ -107,7 +107,7 @@ Optionally return array of urls instead of a single url.
 
 Use `-m` or `--multi` on the CLI
 
-*You may specify either option or an object containing `multi` and `year` properties*
+***You may specify either option or an object containing `multi` and `year` properties***
 
 
 #### callback(error, response)

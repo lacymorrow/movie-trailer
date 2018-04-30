@@ -25,7 +25,7 @@ npm install --global movie-trailer
 In the browser:
 
 ```html
-<!-- movieInfo window global -->
+<!-- movieTrailer window global -->
 <script type="text/javascript" src="https://unpkg.com/movie-trailer"></script>
 ```
 (via Unpkg, or via [JSDelivr](https://cdn.jsdelivr.net/npm/movie-trailer/index.min.js))

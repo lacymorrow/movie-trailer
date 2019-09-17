@@ -9,8 +9,9 @@ const cli = meow(
 	  $ movie-trailer movie [year] [multi]
 
 	Options
-	  --year,  -year  Specify a release year to search
-	  --multi, -m     Returns an array of URLs instead of a single URL
+	  --year,     -y   Specify a release year to search
+	  --multi,    -m   Returns an array of URLs instead of a single URL
+	  --language, -l   Specify a language code (eg: 'de_DE')
 
 	Example
 	  $ movie-trailer 'Oceans Eleven' --year 1960
@@ -25,6 +26,10 @@ const cli = meow(
 			year: {
 				type: 'string',
 				alias: 'y'
+			},
+			language: {
+				type: 'string',
+				alias: 'l'
 			}
 		}
 	}
@@ -32,11 +37,13 @@ const cli = meow(
 
 let opts = {
 	multi: false,
-	year: null
+	year: null,
+	language: null
 }
 
 if ( cli.flags.m ) opts.multi = !!cli.flags.m
 if ( cli.flags.y ) opts.year = cli.flags.y
+if ( cli.flags.l ) opts.language = cli.flags.l
 if ( !cli.input[0] ) cli.showHelp()
 
 movieTrailer( cli.input[0], opts ).then( console.log )

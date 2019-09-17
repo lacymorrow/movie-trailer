@@ -24,11 +24,11 @@
 	// Public Key on purpose
 	const apiKey = '9d2bff12ed955c7f1f74b83187f188ae'
 
-	function getMovieId ( search, year ) {
+	function getMovieId ( search, year, language ) {
 
 		/* Fetch a Movie ID for querying the TMDB API */
 
-		const url = 'https://api.themoviedb.org' + encodeURI( '/3/search/movie?api_key=' + apiKey + '&query=' + search + ( ( year !== null ) ? '&year=' + year : '' ) )
+		const url = 'https://api.themoviedb.org' + encodeURI( '/3/search/movie?api_key=' + apiKey + '&query=' + search + ( ( year !== null ) ? '&year=' + year : '' ) + ( ( language !== null ) ? '&language=' + language : '' ) )
 
 		const response = fetch( url, {
 			method: 'GET'
@@ -48,7 +48,7 @@
 					// Retry failed search without year
 					if ( year !== null ) {
 
-						getMovieId( search )
+						getMovieId( search, null, language )
 
 					} else {
 
@@ -70,10 +70,10 @@
 
 	}
 
-	function getTrailer ( movieId, multi ) {
+	function getTrailer ( movieId, multi, language ) {
 
 		/* Fetch single or multiple movie trailers via the TMDB API */
-		const url = 'https://api.themoviedb.org' + encodeURI( '/3/movie/' + movieId + '/videos?api_key=' + apiKey )
+		const url = 'https://api.themoviedb.org' + encodeURI( '/3/movie/' + movieId + '/videos?api_key=' + apiKey + ( ( language !== null ) ? '&language=' + language : '' ) )
 		const response = fetch( url, {
 			method: 'GET'
 		} )
@@ -117,7 +117,8 @@
 		// Massage inputs
 		let opts = {
 			multi: false,
-			year: null
+			year: null,
+			language: null
 		}
 		if ( typeof movie !== 'string' ) {
 
@@ -159,10 +160,10 @@
 		// Remove invalid callback
 		if ( typeof cb !== 'function' ) cb = null
 
-		const response = getMovieId( movie, opts.year )
+		const response = getMovieId( movie, opts.year, opts.language )
 			.then( movieId => {
 
-				return getTrailer( movieId, opts.multi )
+				return getTrailer( movieId, opts.multi, opts.language )
 
 			} )
 

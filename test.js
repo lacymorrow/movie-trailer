@@ -7,7 +7,7 @@ test( 'fetch movie trailer', async t => {
 	t.plan( 2 )
 
 	const trailer = await movieTrailer( 'oceans eleven' )
-	
+
 	t.is( trailer.indexOf( 'http' ), 0, 'returns a url' )
 	t.not( trailer.indexOf( 'youtube' ), -1, 'returns a youtube url' )
 
@@ -21,6 +21,17 @@ test( 'fetch movie trailer with year', async t => {
 
 	t.is( trailer.indexOf( 'http' ), 0, 'returns a url' )
 	t.not( trailer.indexOf( 'youtube' ), -1, 'returns a youtube url' )
+
+} )
+
+test( 'fetch movie trailer with language', async t => {
+
+	t.plan( 1 )
+
+	const trailer = await movieTrailer( 'oceans eleven' )
+	const trailer_de = await movieTrailer( 'oceans eleven', { language: 'de_DE' } )
+
+	t.not( trailer, trailer_de, 'returns a language-specific video' )
 
 } )
 

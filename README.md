@@ -19,7 +19,7 @@
 Using [NPM](https://npmjs.com):
 
 ```bash
-npm install --global movie-trailer
+npm install movie-trailer
 ```
 
 In the browser:
@@ -118,13 +118,13 @@ movieTrailer( 'Oceans Eleven', ( error, response ) => {
 #### From the command line
 
 ```bash
-$ movie-trailer --help
+$ npx movie-trailer --help
 
 Usage
-  $ movie-trailer movie [year] [multi]
+  $ npx movie-trailer movie [year] [multi]
 
 Example
-  $ movie-trailer 'Oceans Eleven' 1960
+  $ npx movie-trailer 'Oceans Eleven' 1960
   //=> http://path/to/trailer
 ```
 

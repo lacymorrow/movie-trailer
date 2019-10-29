@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 import test from 'ava'
 import movieTrailer from './index'
 
@@ -21,6 +21,17 @@ test( 'fetch movie trailer with year', async t => {
 
 	t.is( trailer.indexOf( 'http' ), 0, 'returns a url' )
 	t.not( trailer.indexOf( 'youtube' ), -1, 'returns a youtube url' )
+
+} )
+
+test( 'fetch movie trailer as video ID', async t => {
+
+	t.plan( 2 )
+
+	const trailer = await movieTrailer( 'oceans eleven', { id: true } )
+
+	t.is( trailer.indexOf( 'http' ), -1, 'does not return a url' )
+	t.is( trailer.indexOf( 'youtube' ), -1, 'is not a youtube url' )
 
 } )
 

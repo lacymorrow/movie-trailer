@@ -34,24 +34,24 @@ In the browser:
 ## Usage
 
 ```js
-const movieTrailer = require('movie-trailer');
+const movieTrailer = require( 'movie-trailer' )
 
-movieTrailer('Crash').then(console.log)
+movieTrailer( 'Crash' ).then( console.log ).catch( console.error )
 
 //=> https://www.youtube.com/watch?v=durNwe9pL0E
 ```
 
 ##### Search using release date year
 ```js
-movieTrailer('Oceans Eleven', 1960)
+movieTrailer( 'Oceans Eleven', 1960 )
   .then( response => console.log( response ) )
 
 //=> http://path/to/trailer
 ```
 
-##### Return an array of URLs
+##### Return an array of video IDs
 ```js
-movieTrailer('Oceans Eleven', true)
+movieTrailer( 'Oceans Eleven', {id: true, multi: true} )
   .then( response => console.log( response ) )
   
 //=> [ ... ]
@@ -91,23 +91,29 @@ movieTrailer( 'Oceans Eleven', ( error, response ) => {
 
 	Type: `object`
 
+	* ##### id _(`false`)_
+
+		Type: `boolean` 
+
+		_(optional)_ Return only Youtube video IDs.
+
+		_Use `-i` or `--id` on the CLI_
+
+	* ##### multi _(`false`)_
+
+		Type: `boolean` 
+
+		_(optional)_ Return an array of urls vs a single url.
+
+		_Use `-m` or `--multi` on the CLI_
+
 	* ##### year
 
 		Type: `string` || `number`
 
-		Optional movie year.
+		_(optional)_ Movie release year.
 
-		Use `-y` or `--year` on the CLI
-
-	* ##### multi
-
-		Type: `boolean` 
-
-		Optionally return array of urls instead of a single url.
-
-		Use `-m` or `--multi` on the CLI
-
-	***You may specify either option or an object containing `multi` and `year` properties***
+		_Use `-y` or `--year` on the CLI_
 
 
 * #### callback(error, response)

@@ -24,6 +24,12 @@
 	// Public Key on purpose
 	const apiKey = '9d2bff12ed955c7f1f74b83187f188ae'
 
+	function toUrl ( videoId ) {
+
+		return encodeURI( 'https://www.youtube.com/watch?v=' + videoId )
+
+	}
+
 	function getMovieId ( search, year, language ) {
 
 		/* Fetch a Movie ID for querying the TMDB API */
@@ -70,11 +76,11 @@
 
 	}
 
-	function getTrailer ( movieId, multi, language ) {
+	function getTrailer ( movieId, multi, videoId, language ) {
 
 		/* Fetch single or multiple movie trailers via the TMDB API */
-		const url = 'https://api.themoviedb.org' + encodeURI( '/3/movie/' + movieId + '/videos?api_key=' + apiKey + ( ( language !== null ) ? '&language=' + language : '' ) )
-		const response = fetch( url, {
+		const endpoint = 'https://api.themoviedb.org' + encodeURI( '/3/movie/' + movieId + '/videos?api_key=' + apiKey + ( ( language !== null ) ? '&language=' + language : '' ) )
+		const response = fetch( endpoint, {
 			method: 'GET'
 		} )
 			.then(
@@ -93,14 +99,32 @@
 					// Error
 					return Promise.reject( new Error( 'API - No results found' ) )
 
-				} else if ( multi ) {
+				}
+
+				let results = json.results
+
+				// Strip all but videoId
+				results = results.map( result => {
+
+					return result.key
+
+				} )
+
+				if ( !videoId ) {
+
+					// Return Youtube videoID or full `Watch` URL
+					results = results.map( toUrl )
+
+				}
+
+				if ( multi ) {
 
 					// Return *unique* urls
-					return Array.from( new Set( json.results.map( e => encodeURI( 'https://www.youtube.com/watch?v=' + e.key ) ) ) )
+					return Array.from( new Set( results ) )
 
 				} else {
 
-					return encodeURI( 'https://www.youtube.com/watch?v=' + json.results[0].key )
+					return results[0]
 
 				}
 
@@ -117,9 +141,11 @@
 		// Massage inputs
 		let opts = {
 			multi: false,
+			id: false,
 			year: null,
 			language: null
 		}
+
 		if ( typeof movie !== 'string' ) {
 
 			throw new Error( 'Expected first parameter to be a movie (string)' )
@@ -130,7 +156,7 @@
 			cb = options
 			options = null
 
-		} else if ( typeof options === 'boolean' || ( typeof options === 'string' && options === 'true' ) ) {
+		} else if ( typeof options === 'boolean' || options === 'true' ) {
 
 			// Second parameter is multi
 			opts.multi = options
@@ -163,7 +189,7 @@
 		const response = getMovieId( movie, opts.year, opts.language )
 			.then( movieId => {
 
-				return getTrailer( movieId, opts.multi, opts.language )
+				return getTrailer( movieId, opts.multi, opts.id, opts.language )
 
 			} )
 

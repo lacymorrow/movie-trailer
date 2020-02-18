@@ -1,6 +1,6 @@
 {
   "name": "movie-trailer",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Get movie trailer url(s): Oceans Eleven ➔ http://path/to/trailer",
   "license": "MIT",
   "main": "index.js",
@@ -46,6 +46,7 @@
   },
   "homepage": "https://github.com/lacymorrow/movie-trailer",
   "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
     "meow": "^4.0.0",
     "node-fetch": "^2.1.2"
   }

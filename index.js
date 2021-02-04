@@ -23,17 +23,19 @@
 
 } )( this, fetch => {
 
-	function handleErrors(error) {
-		let message = (error && error.message) ? error.message : error
-		console.warn( `movie-trailer: ${message}`)
-		// throw Error( error.message )
+	function handleErrors( error ) {
+
+		const message = ( error && error.message ) ? error.message : error
+		console.warn( `movie-trailer: ${message}` )
+		// Throw Error( error.message )
+
 	}
 
 	function handleFetchErrors( response ) {
 
 		if ( !response.ok ) {
 
-			throw Error( response.statusText )
+			throw new Error( response.statusText )
 
 		}
 
@@ -62,7 +64,7 @@
 				if ( typeof json.status_message !== 'undefined' ) {
 
 					// Error
-					throw Error( json.status_message )
+					throw new TypeError( json.status_message )
 
 				} else if ( json.results.length === 0 ) {
 
@@ -74,7 +76,7 @@
 					}
 
 					// Error
-					throw Error( `No TMDB Movie found with the current search terms, try searching https://www.themoviedb.org/search?query=${encodeURIComponent(search)}` )
+					throw new Error( `No TMDB Movie found with that search query, try searching https://www.themoviedb.org/search?query=${encodeURIComponent( search )} to verify one exists` )
 
 				} else {
 
@@ -84,7 +86,9 @@
 
 			} )
 			.catch( error => {
-				handleErrors(error)
+
+				handleErrors( error )
+
 				return null
 
 			} )
@@ -107,14 +111,14 @@
 				if ( typeof ( json.status_message ) !== 'undefined' ) {
 
 					// Error
-					throw Error( `movie-trailer: ${json.status_message}` )
+					throw new TypeError( `movie-trailer: ${json.status_message}` )
 
 				}
 
 				if ( json.results.length === 0 ) {
 
 					// Error
-					throw Error( 'No trailers found for that TMDB ID' )
+					throw new Error( 'No trailers found for that TMDB ID' )
 
 				}
 
@@ -139,8 +143,10 @@
 			} )
 			.catch( error => {
 
-				handleErrors(error)
+				handleErrors( error )
+
 				return null
+
 			} )
 
 		return result
@@ -170,7 +176,7 @@
 
 		if ( typeof movie !== 'string' && !options.tmdbId ) {
 
-			throw Error( 'Expected first parameter to be a movie or TMDB ID (string)' )
+			throw new Error( 'Expected first parameter to be a movie or TMDB ID (string)' )
 
 		} else if ( typeof options === 'function' ) {
 
@@ -215,7 +221,8 @@
 		const movieId = config.tmdbId ? config.tmdbId : ( await getMovieId( movie, config )
 			.catch( error => {
 
-				handleErrors(error)
+				handleErrors( error )
+
 				return null
 
 			} ) )
@@ -247,7 +254,7 @@
 
 		}
 
-		// return promise
+		// Return promise
 		return result
 
 	}

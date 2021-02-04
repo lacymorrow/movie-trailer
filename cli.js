@@ -101,4 +101,12 @@ if ( !cli.input[0] && !options.tmdbId ) {
 
 }
 
-movieTrailer( cli.input[0], options ).then( console.log )
+movieTrailer( cli.input[0], options ).then( result => {
+
+	if ( result ) {
+
+		console.log( result )
+
+	}
+
+} )

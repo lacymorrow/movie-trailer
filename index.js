@@ -143,7 +143,7 @@
 			language: null,
 
 			// Public Key on purpose
-			api_key: '9d2bff12ed955c7f1f74b83187f188ae',
+			api_key: '9d2bff12ed955c7f1f74b83187f188ae'
 		}
 
 		if ( typeof movie !== 'string' ) {

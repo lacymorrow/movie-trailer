@@ -13,7 +13,7 @@ const cli = meow(
 	  --multi,    -m   Returns an array of URLs instead of a single URL.
 	  --language, -l   Specify a language code (eg: 'de_DE').
 	  --id        -i   Return just the Youtube video ID.
-	  --api_key   -k   TMDB API key: http://developers.themoviedb.org
+	  --api_key   -k   (optional) Your own TMDB API key: http://developers.themoviedb.org
 
 	Example
 	  $ movie-trailer 'Oceans Eleven' --year 1960

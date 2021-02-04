@@ -22,7 +22,8 @@
   },
   "scripts": {
     "lint": "xo --fix",
-    "test": "ava --verbose"
+    "test": "ava --verbose",
+    "release": "np"
   },
   "files": [
     "cli.js",

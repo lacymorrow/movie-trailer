@@ -1,6 +1,6 @@
 # movie-trailer [![npm version](https://badge.fury.io/js/movie-trailer.svg)](https://badge.fury.io/js/movie-trailer) [![Build Status](https://travis-ci.org/lacymorrow/movie-trailer.svg?branch=master)](https://travis-ci.org/lacymorrow/movie-trailer) [![Try movie-trailer on RunKit](https://badge.runkitcdn.com/movie-trailer.svg)](https://npm.runkit.com/movie-trailer)
 
-> Fetch movie trailer url(s): "Oceans Eleven" ➔ http://path/to/trailer
+> Fetch movie trailer url(s): "Oceans Eleven" ➔ https://www.youtube.com/watch?v=...
 
 [![movie-trailer](https://github.com/lacymorrow/movie-trailer/raw/master/demo.svg?sanitize=true)]()
 
@@ -11,7 +11,7 @@
  * Fetch Youtube trailers for any movie
  * Return one or many trailer URLs
  * Use anywhere, browser or Node - UMD _([Browser Support](https://caniuse.com/#feat=fetch))_
- * Promise and Callback API
+ * Async/await, Promise and Callback APIs
 
 
 ## Install
@@ -19,7 +19,7 @@
 Using [NPM](https://npmjs.com):
 
 ```bash
-npm install movie-trailer
+npm install --save movie-trailer
 ```
 
 In the browser:
@@ -34,19 +34,10 @@ In the browser:
 ## Usage
 
 ```js
-const movieTrailer = require( 'movie-trailer' )
+const movieTrailer = require( 'movie-trailer' ) // or import movieTrailer from 'movie-trailer'
 
-movieTrailer( 'Crash' ).then( console.log ).catch( console.error )
-
-//=> https://www.youtube.com/watch?v=durNwe9pL0E
-```
-
-##### Search using release date year
-```js
-movieTrailer( 'Oceans Eleven', 1960 )
-  .then( response => console.log( response ) )
-
-//=> http://path/to/trailer
+await movieTrailer( 'Up' )
+//=> https://www.youtube.com/watch?v=...
 ```
 
 ##### Return an array of video IDs
@@ -54,7 +45,7 @@ movieTrailer( 'Oceans Eleven', 1960 )
 movieTrailer( 'Oceans Eleven', {id: true, multi: true} )
   .then( response => console.log( response ) )
   
-//=> [ ... ]
+//=> [ 'XXXXXXXXX', 'XXXXXXXXX', ... ]
 ```
 
 ##### Both
@@ -62,16 +53,15 @@ movieTrailer( 'Oceans Eleven', {id: true, multi: true} )
 movieTrailer( 'Oceans Eleven', {year: '1960', multi: true} )
   .then( response => console.log( response ) )
 
-//=> [ ... ]
+//=> [ https://www.youtube.com/watch?v=XXXXXXXXX, ... ]
 ```
 
-###### Callback
+##### Legacy-style search using release date year
 ```js
-movieTrailer( 'Oceans Eleven', ( error, response ) => {
-    console.log( response ); 
-    //=> http://path/to/trailer
-} )
+movieTrailer( 'Oceans Eleven', 1960 )
+  .then( response => console.log( response ) )
 
+//=> http://path/to/trailer
 ```
 
 ## API
@@ -84,14 +74,22 @@ movieTrailer( 'Oceans Eleven', ( error, response ) => {
 
 	Type: `string`
 
-	Movie to search for.
+	Movie to search for. If searching with a `tmdbId`, pass `null`.
 
 
 * #### options 
 
 	Type: `object`
 
-	* ##### id _(`false`)_
+	* ##### `apiKey`
+
+		Type: `boolean` 
+
+		_(optional)_ Use your own TMDB api key. You can get a free key here: https://developers.themoviedb.org/ .
+
+		_Use `-a` or `--api_key` on the CLI_
+
+	* ##### `id` _(`false`)_
 
 		Type: `boolean` 
 
@@ -99,7 +97,7 @@ movieTrailer( 'Oceans Eleven', ( error, response ) => {
 
 		_Use `-i` or `--id` on the CLI_
 
-	* ##### multi _(`false`)_
+	* ##### `multi` _(`false`)_
 
 		Type: `boolean` 
 
@@ -107,7 +105,23 @@ movieTrailer( 'Oceans Eleven', ( error, response ) => {
 
 		_Use `-m` or `--multi` on the CLI_
 
-	* ##### year
+		```js
+		movieTrailer( 'Oceans Eleven', { multi: true } )
+		```
+
+	* ##### `tmdbId`
+
+		Type: `boolean` 
+
+		_(optional)_ Search using a TMDB content ID instead of a search term
+
+		_Use `-t` or `--tmdb_id` on the CLI_
+
+		```js
+		movieTrailer( null, { tmdbId: 161 } )  // Content ID for "Ocean's Eleven"
+		```
+
+	* ##### `year`
 
 		Type: `string` || `number`
 
@@ -120,6 +134,13 @@ movieTrailer( 'Oceans Eleven', ( error, response ) => {
 
 	Callback function.
 
+	```js
+	movieTrailer( 'Oceans Eleven', ( error, response ) => {
+	    console.log( response ); 
+	    //=> http://path/to/trailer
+	} )
+	```
+
 
 #### From the command line
 
@@ -127,11 +148,19 @@ movieTrailer( 'Oceans Eleven', ( error, response ) => {
 $ npx movie-trailer --help
 
 Usage
-  $ npx movie-trailer movie [year] [multi]
+	$ npx movie-trailer movie 	
+
+Options
+	--api_key   -k   (optional) Your own TMDB API key: http://developers.themoviedb.org
+	--id        -i   Return just the Youtube video ID.
+	--language, -l   Specify a language code (eg: 'de_DE').
+	--multi,    -m   Returns an array of URLs instead of a single URL.
+	--tmdb_id   -t   Specify an explicit TMDB ID.
+	--year,     -y   Specify a release year to search.
 
 Example
-  $ npx movie-trailer 'Oceans Eleven' 1960
-  //=> http://path/to/trailer
+	$ npx movie-trailer 'Oceans Eleven' -y 1960 -m
+	//=> http://path/to/trailer
 ```
 
 

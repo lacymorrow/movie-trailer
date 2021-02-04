@@ -23,7 +23,13 @@
 
 } )( this, fetch => {
 
-	function handleErrors( response ) {
+	function handleErrors(error) {
+		let message = (error && error.message) ? error.message : error
+		console.warn( `movie-trailer: ${message}`)
+		// throw Error( error.message )
+	}
+
+	function handleFetchErrors( response ) {
 
 		if ( !response.ok ) {
 
@@ -49,14 +55,14 @@
 		const result = fetch( endpoint, {
 			method: 'GET'
 		} )
-			.then( handleErrors )
+			.then( handleFetchErrors )
 			.then( response => response.json() )
 			.then( json => {
 
 				if ( typeof json.status_message !== 'undefined' ) {
 
 					// Error
-					throw Error( `movie-trailer: ${json.status_message}` )
+					throw Error( json.status_message )
 
 				} else if ( json.results.length === 0 ) {
 
@@ -68,7 +74,7 @@
 					}
 
 					// Error
-					throw Error( 'movie-trailer: No TMDB ID found with the current search terms' )
+					throw Error( `No TMDB Movie found with the current search terms, try searching https://www.themoviedb.org/search?query=${encodeURIComponent(search)}` )
 
 				} else {
 
@@ -78,8 +84,8 @@
 
 			} )
 			.catch( error => {
-
-				throw Error( `movie-trailer: ${error}` )
+				handleErrors(error)
+				return null
 
 			} )
 
@@ -94,21 +100,21 @@
 		const result = fetch( endpoint, {
 			method: 'GET'
 		} )
-			.then( handleErrors )
+			.then( handleFetchErrors )
 			.then( response => response.json() )
 			.then( json => {
 
 				if ( typeof ( json.status_message ) !== 'undefined' ) {
 
 					// Error
-					throw Error( `movie-trailer:2 ${json.status_message}` )
+					throw Error( `movie-trailer: ${json.status_message}` )
 
 				}
 
 				if ( json.results.length === 0 ) {
 
 					// Error
-					throw Error( 'movie-trailer: No trailers found for that TMDB ID' )
+					throw Error( 'No trailers found for that TMDB ID' )
 
 				}
 
@@ -133,8 +139,8 @@
 			} )
 			.catch( error => {
 
-				throw Error( `movie-trailer: ${error}` )
-
+				handleErrors(error)
+				return null
 			} )
 
 		return result
@@ -207,23 +213,32 @@
 		}
 
 		const movieId = config.tmdbId ? config.tmdbId : ( await getMovieId( movie, config )
-			.then( movieId => movieId )
 			.catch( error => {
 
-				throw Error( error )
+				handleErrors(error)
+				return null
 
 			} ) )
 
-		if ( typeof movieId !== 'number' && typeof movieId !== 'string' ) {
+		// Get the TMDB content ID
+		if ( !movieId ) {
 
 			// Failed
-			throw new TypeError( typeof movieId )
+			return null
 
 		}
 
+		// Get the trailers themselves
 		const result = getTrailer( movieId, config )
 
-		// Callback
+		if ( !result ) {
+
+			// Failed
+			return null
+
+		}
+
+		// Call callback if supplied
 		if ( cb ) {
 
 			return result
@@ -232,7 +247,7 @@
 
 		}
 
-		// Promise
+		// return promise
 		return result
 
 	}

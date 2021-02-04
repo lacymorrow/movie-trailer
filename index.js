@@ -1,3 +1,5 @@
+/* eslint-disable promise/prefer-await-to-then */
+/* global define */
 'use strict';
 
 ( function ( root, cx ) {
@@ -5,7 +7,7 @@
 	if ( typeof define === 'function' && define.amd ) {
 
 		// AMD
-		define( ['isomorphic-fetch'], cx )
+		define( [ 'isomorphic-fetch' ], cx )
 
 	} else if ( typeof exports === 'object' ) {
 
@@ -19,46 +21,54 @@
 
 	}
 
-} )( this, function ( fetch ) {
+} )( this, fetch => {
 
-	function toUrl ( videoId ) {
+	function handleErrors( response ) {
+
+		if ( !response.ok ) {
+
+			throw Error( response.statusText )
+
+		}
+
+		return response
+
+	}
+
+	function toUrl( videoId ) {
 
 		return encodeURI( 'https://www.youtube.com/watch?v=' + videoId )
 
 	}
 
-	function getMovieId ( search, year, language, apiKey ) {
+	function getMovieId( search, options ) {
 
 		/* Fetch a Movie ID for querying the TMDB API */
 
-		const url = 'https://api.themoviedb.org' + encodeURI( '/3/search/movie?api_key=' + apiKey + '&query=' + search + ( ( year !== null ) ? '&year=' + year : '' ) + ( ( language !== null ) ? '&language=' + language : '' ) )
-
-		const response = fetch( url, {
+		const endpoint = 'https://api.themoviedb.org' + encodeURI( '/3/search/movie?api_key=' + options.apiKey + '&query=' + search + ( ( options.year === null ) ? '' : '&year=' + options.year ) + ( ( options.language === null ) ? '' : '&language=' + options.language ) )
+		const result = fetch( endpoint, {
 			method: 'GET'
 		} )
-			.then(
-				res => res.json(),
-				err => Promise.reject( err.message ) )
+			.then( handleErrors )
+			.then( response => response.json() )
 			.then( json => {
 
-				if ( typeof ( json.status_message ) !== 'undefined' ) {
+				if ( typeof json.status_message !== 'undefined' ) {
 
 					// Error
-					return Promise.reject( new Error( `JSON - ${json.status_message}` ) )
+					throw Error( `movie-trailer: ${json.status_message}` )
 
 				} else if ( json.results.length === 0 ) {
 
 					// Retry failed search without year
-					if ( year !== null ) {
+					if ( options.year !== null ) {
 
-						getMovieId( search, null, language )
-
-					} else {
-
-						// Error
-						return Promise.reject( new Error( 'API - No results found' ) )
+						return getMovieId( search, null, options.language )
 
 					}
+
+					// Error
+					throw Error( 'movie-trailer: No TMDB ID found with the current search terms' )
 
 				} else {
 
@@ -67,38 +77,42 @@
 				}
 
 			} )
-			.catch( error => error )
+			.catch( error => {
 
-		return response
+				throw Error( `movie-trailer: ${error}` )
+
+			} )
+
+		return result
 
 	}
 
-	function getTrailer ( movieId, multi, videoId, language, apiKey ) {
+	function getTrailer( movieId, options ) {
 
 		/* Fetch single or multiple movie trailers via the TMDB API */
-		const endpoint = 'https://api.themoviedb.org' + encodeURI( '/3/movie/' + movieId + '/videos?api_key=' + apiKey + ( ( language !== null ) ? '&language=' + language : '' ) )
-		const response = fetch( endpoint, {
+		const endpoint = 'https://api.themoviedb.org' + encodeURI( '/3/movie/' + movieId + '/videos?api_key=' + options.apiKey + ( ( options.language === null ) ? '' : '&language=' + options.language ) )
+		const result = fetch( endpoint, {
 			method: 'GET'
 		} )
-			.then(
-				res => res.json(),
-				err => Promise.reject( err.message )
-			)
+			.then( handleErrors )
+			.then( response => response.json() )
 			.then( json => {
 
 				if ( typeof ( json.status_message ) !== 'undefined' ) {
 
 					// Error
-					return Promise.reject( new Error( `JSON - ${json.status_message}` ) )
-
-				} else if ( json.results.length === 0 ) {
-
-					// Error
-					return Promise.reject( new Error( 'API - No results found' ) )
+					throw Error( `movie-trailer:2 ${json.status_message}` )
 
 				}
 
-				let results = json.results
+				if ( json.results.length === 0 ) {
+
+					// Error
+					throw Error( 'movie-trailer: No trailers found for that TMDB ID' )
+
+				}
+
+				let { results } = json
 
 				// Strip all but videoId
 				results = results.map( result => {
@@ -107,48 +121,50 @@
 
 				} )
 
-				if ( !videoId ) {
+				if ( !options.id ) {
 
-					// Return Youtube videoID or full `Watch` URL
-					results = results.map( toUrl )
-
-				}
-
-				if ( multi ) {
-
-					// Return *unique* urls
-					return Array.from( new Set( results ) )
-
-				} else {
-
-					return results[0]
+					// Return Youtube videoId or full `Watch` URL
+					results = results.map( videoId => toUrl( videoId ) )
 
 				}
+
+				return options.multi ? [ ...new Set( results ) ] : results[0]
+
+			} )
+			.catch( error => {
+
+				throw Error( `movie-trailer: ${error}` )
 
 			} )
 
-		return response
+		return result
 
 	}
 
-	function movieTrailer ( movie, options, cb, legacy ) {
+	async function movieTrailer( movie, options, cb, legacy ) {
 
 		/* Fetch movie trailers */
 
 		// Massage inputs
-		let opts = {
+		let config = {
 			multi: false,
 			id: false,
 			year: null,
 			language: null,
 
 			// Public Key on purpose
-			api_key: '9d2bff12ed955c7f1f74b83187f188ae'
+			apiKey: '9d2bff12ed955c7f1f74b83187f188ae'
 		}
 
-		if ( typeof movie !== 'string' ) {
+		if ( !options ) {
 
-			throw new Error( 'Expected first parameter to be a movie (string)' )
+			options = {}
+
+		}
+
+		if ( typeof movie !== 'string' && !options.tmdbId ) {
+
+			throw Error( 'Expected first parameter to be a movie or TMDB ID (string)' )
 
 		} else if ( typeof options === 'function' ) {
 
@@ -159,18 +175,18 @@
 		} else if ( typeof options === 'boolean' || options === 'true' ) {
 
 			// Second parameter is multi
-			opts.multi = options
+			config.multi = options
 
 		} else if ( typeof options === 'string' || typeof options === 'number' ) {
 
 			// Second parameter is year
-			opts.year = options
+			config.year = options
 
 			/* BACKWARDS-COMPATABILITY FOR v1 */
 			if ( typeof legacy === 'function' && ( typeof cb === 'boolean' || ( typeof cb === 'string' && cb === 'true' ) ) ) {
 
 				// Third parameter is multi
-				opts.multi = cb
+				config.multi = cb
 				cb = legacy
 
 			}
@@ -179,29 +195,45 @@
 		} else if ( typeof options === 'object' ) {
 
 			// Set options
-			opts = Object.assign( opts, options )
+			config = Object.assign( config, options )
 
 		}
 
 		// Remove invalid callback
-		if ( typeof cb !== 'function' ) cb = null
+		if ( typeof cb !== 'function' ) {
 
-		const response = getMovieId( movie, opts.year, opts.language, opts.api_key )
-			.then( movieId => {
+			cb = null
 
-				return getTrailer( movieId, opts.multi, opts.id, opts.language, opts.api_key )
+		}
 
-			} )
+		const movieId = config.tmdbId ? config.tmdbId : ( await getMovieId( movie, config )
+			.then( movieId => movieId )
+			.catch( error => {
+
+				throw Error( error )
+
+			} ) )
+
+		if ( typeof movieId !== 'number' && typeof movieId !== 'string' ) {
+
+			// Failed
+			throw new TypeError( typeof movieId )
+
+		}
+
+		const result = getTrailer( movieId, config )
 
 		// Callback
 		if ( cb ) {
 
-			return response.then( res => cb( null, res ), err => cb( err, null ) )
+			return result
+				.then( response => cb( null, response ) )
+				.catch( error => cb( error, null ) )
 
 		}
 
 		// Promise
-		return response
+		return result
 
 	}
 

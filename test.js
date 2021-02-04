@@ -1,12 +1,34 @@
 'use strict'
 import test from 'ava'
-import movieTrailer from './index'
+import movieTrailer from './index.js'
 
 test( 'fetch movie trailer', async t => {
 
 	t.plan( 2 )
 
 	const trailer = await movieTrailer( 'oceans eleven' )
+
+	t.is( trailer.indexOf( 'http' ), 0, 'returns a url' )
+	t.not( trailer.indexOf( 'youtube' ), -1, 'returns a youtube url' )
+
+} )
+
+test( 'dont fetch empty search', async t => {
+
+	// Testing no search quety, should error
+	const error = await t.throws( movieTrailer( null )
+		.catch( error_ => Promise.reject( error_ ) )
+	)
+
+	t.is( error.message, 'Expected first parameter to be a movie or TMDB ID (string)' )
+
+} )
+
+test( 'fetch movie trailer by TMDB ID', async t => {
+
+	t.plan( 2 )
+
+	const trailer = await movieTrailer( null, { tmdbId: '161' } )
 
 	t.is( trailer.indexOf( 'http' ), 0, 'returns a url' )
 	t.not( trailer.indexOf( 'youtube' ), -1, 'returns a youtube url' )
@@ -39,10 +61,10 @@ test( 'fetch movie trailer with language', async t => {
 
 	t.plan( 1 )
 
-	const trailer = await movieTrailer( 'oceans eleven' )
-	const trailer_de = await movieTrailer( 'oceans eleven', { language: 'de_DE' } )
+	const trailer = await movieTrailer( 'up' )
+	const trailerDE = await movieTrailer( 'up', { language: 'de_DE' } )
 
-	t.not( trailer, trailer_de, 'returns a language-specific video' )
+	t.not( trailer, trailerDE, 'returns a language-specific video' )
 
 } )
 
@@ -93,15 +115,31 @@ test( 'fetch multiple trailers with year', async t => {
 
 } )
 
+test( 'fetch using a custom api_key', async t => {
+
+	t.plan( 2 )
+
+	const trailer = await movieTrailer( 'oceans eleven', { apiKey: '9d2bff12ed955c7f1f74b83187f188ae' } )
+
+	t.is( trailer.indexOf( 'http' ), 0, 'returns a url' )
+	t.not( trailer.indexOf( 'youtube' ), -1, 'returns a youtube url' )
+
+} )
+
 test.cb( 'calls the callback', t => {
 
 	t.plan( 2 )
 
-	movieTrailer( 'oceans eleven', ( err, res ) => {
+	movieTrailer( 'oceans eleven', ( error, result ) => {
 
-		err && t.end( err )
-		t.is( res.indexOf( 'http' ), 0, 'returns a url' )
-		t.not( res.indexOf( 'youtube' ), -1, 'returns a youtube url' )
+		if ( error ) {
+
+			return t.end( error )
+
+		}
+
+		t.is( result.indexOf( 'http' ), 0, 'returns a url' )
+		t.not( result.indexOf( 'youtube' ), -1, 'returns a youtube url' )
 		t.end()
 
 	} )
@@ -112,11 +150,16 @@ test.cb( 'calls the callback with a year', t => {
 
 	t.plan( 2 )
 
-	movieTrailer( 'oceans eleven', 1960, ( err, res ) => {
+	movieTrailer( 'oceans eleven', 1960, ( error, result ) => {
 
-		err && t.end( err )
-		t.is( res.indexOf( 'http' ), 0, 'returns a url' )
-		t.not( res.indexOf( 'youtube' ), -1, 'returns a youtube url' )
+		if ( error ) {
+
+			return t.end( error )
+
+		}
+
+		t.is( result.indexOf( 'http' ), 0, 'returns a url' )
+		t.not( result.indexOf( 'youtube' ), -1, 'returns a youtube url' )
 		t.end()
 
 	} )
@@ -127,12 +170,17 @@ test.cb( 'calls the callback with multiple trailers', t => {
 
 	t.plan( 3 )
 
-	movieTrailer( 'oceans eleven', true, ( err, res ) => {
+	movieTrailer( 'oceans eleven', true, ( error, result ) => {
 
-		err && t.end( err )
-		t.is( typeof res, 'object' )
-		t.is( res[0].indexOf( 'http' ), 0, 'returns a url' )
-		t.not( res[0].indexOf( 'youtube' ), -1, 'returns a youtube url' )
+		if ( error ) {
+
+			return t.end( error )
+
+		}
+
+		t.is( typeof result, 'object' )
+		t.is( result[0].indexOf( 'http' ), 0, 'returns a url' )
+		t.not( result[0].indexOf( 'youtube' ), -1, 'returns a youtube url' )
 		t.end()
 
 	} )
@@ -143,12 +191,17 @@ test.cb( 'calls the callback with a year and multiple trailers', t => {
 
 	t.plan( 3 )
 
-	movieTrailer( 'oceans eleven', { multi: true, year: 1960 }, ( err, res ) => {
+	movieTrailer( 'oceans eleven', { multi: true, year: 1960 }, ( error, result ) => {
 
-		err && t.end( err )
-		t.is( typeof res, 'object' )
-		t.is( res[0].indexOf( 'http' ), 0, 'returns a url' )
-		t.not( res[0].indexOf( 'youtube' ), -1, 'returns a youtube url' )
+		if ( error ) {
+
+			return t.end( error )
+
+		}
+
+		t.is( typeof result, 'object' )
+		t.is( result[0].indexOf( 'http' ), 0, 'returns a url' )
+		t.not( result[0].indexOf( 'youtube' ), -1, 'returns a youtube url' )
 		t.end()
 
 	} )

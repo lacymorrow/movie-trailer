@@ -9,11 +9,12 @@ const cli = meow(
 	  $ movie-trailer movie [year] [multi]
 
 	Options
-	  --year,     -y   Specify a release year to search.
-	  --multi,    -m   Returns an array of URLs instead of a single URL.
-	  --language, -l   Specify a language code (eg: 'de_DE').
-	  --id        -i   Return just the Youtube video ID.
 	  --api_key   -k   (optional) Your own TMDB API key: http://developers.themoviedb.org
+	  --id        -i   Return just the Youtube video ID.
+	  --language, -l   Specify a language code (eg: 'de_DE').
+	  --multi,    -m   Returns an array of URLs instead of a single URL.
+	  --tmdb_id   -t   Specify an explicit TMDB ID.
+	  --year,     -y   Specify a release year to search.
 
 	Example
 	  $ movie-trailer 'Oceans Eleven' --year 1960
@@ -21,42 +22,83 @@ const cli = meow(
 `,
 	{
 		flags: {
+			// eslint-disable-next-line camelcase
+			api_key: {
+				type: 'string',
+				alias: 'k'
+			},
 			id: {
 				alias: 'i',
 				type: 'boolean'
-			},
-			multi: {
-				alias: 'm',
-				type: 'boolean'
-			},
-			year: {
-				type: 'string',
-				alias: 'y'
 			},
 			language: {
 				type: 'string',
 				alias: 'l'
 			},
-			api_key: {
+			multi: {
+				alias: 'm',
+				type: 'boolean'
+			},
+			// eslint-disable-next-line camelcase
+			tmdb_id: {
 				type: 'string',
-				alias: 'k'
+				alias: 't'
+			},
+			year: {
+				type: 'string',
+				alias: 'y'
 			}
 		}
 	}
 )
 
-let opts = {
+const options = {
 	id: false,
+	language: null,
 	multi: false,
-	year: null,
-	language: null
+	year: null
 }
 
-if ( cli.flags.i ) opts.id = !!cli.flags.i
-if ( cli.flags.m ) opts.multi = !!cli.flags.m
-if ( cli.flags.y ) opts.year = cli.flags.y
-if ( cli.flags.l ) opts.language = cli.flags.l
-if ( cli.flags.k ) opts.api_key = cli.flags.k
-if ( !cli.input[0] ) cli.showHelp()
+if ( cli.flags.i ) {
 
-movieTrailer( cli.input[0], opts ).then( console.log )
+	options.id = Boolean( cli.flags.i )
+
+}
+
+if ( cli.flags.k ) {
+
+	options.apiKey = cli.flags.k
+
+}
+
+if ( cli.flags.l ) {
+
+	options.language = cli.flags.l
+
+}
+
+if ( cli.flags.m ) {
+
+	options.multi = Boolean( cli.flags.m )
+
+}
+
+if ( cli.flags.t ) {
+
+	options.tmdbId = cli.flags.t
+
+}
+
+if ( cli.flags.y ) {
+
+	options.year = cli.flags.y
+
+}
+
+if ( !cli.input[0] && !options.tmdbId ) {
+
+	cli.showHelp()
+
+}
+
+movieTrailer( cli.input[0], options ).then( console.log )

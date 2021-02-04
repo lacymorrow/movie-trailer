@@ -18,9 +18,10 @@
     "url": "http://lacymorrow.com"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=7.6.0"
   },
   "scripts": {
+    "lint": "xo --fix",
     "test": "ava --verbose"
   },
   "files": [
@@ -48,6 +49,49 @@
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
     "meow": "^4.0.0",
-    "node-fetch": "^2.1.2"
+    "node-fetch": "^2.1.2",
+    "xo": "^0.37.1"
+  },
+  "xo": {
+    "envs": [
+      "node",
+      "browser"
+    ],
+    "rules": {
+      "array-bracket-spacing": [
+        "error",
+        "always"
+      ],
+      "padded-blocks": [
+        "error",
+        {
+          "blocks": "always",
+          "switches": "always",
+          "classes": "always"
+        }
+      ],
+      "padding-line-between-statements": [
+        "error",
+        {
+          "blankLine": "always",
+          "prev": "multiline-block-like",
+          "next": "*"
+        },
+        {
+          "blankLine": "always",
+          "prev": "*",
+          "next": "return"
+        }
+      ],
+      "object-curly-spacing": [
+        "error",
+        "always"
+      ],
+      "space-in-parens": [
+        "error",
+        "always"
+      ]
+    },
+    "semicolon": false
   }
 }

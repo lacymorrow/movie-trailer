@@ -50,7 +50,12 @@
     "isomorphic-fetch": "^2.2.1",
     "meow": "^4.0.0",
     "node-fetch": "^2.1.2",
+    "np": "^7.2.0",
     "xo": "^0.37.1"
+  },
+  "np": {
+    "publish": true,
+    "releaseDraft": true
   },
   "xo": {
     "envs": [

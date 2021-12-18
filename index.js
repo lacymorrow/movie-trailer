@@ -71,7 +71,7 @@
 					// Retry failed search without year
 					if ( options.year !== null ) {
 
-						return getMovieId( search, null, options.language )
+						return getMovieId( search, {apiKey : options.apiKey, language: options.language});
 
 					}
 

@@ -111,7 +111,7 @@ movieTrailer( 'Oceans Eleven', 1960 )
 
 	* ##### `tmdbId`
 
-		Type: `number` 
+		Type: `string` || `number` 
 
 		_(optional)_ Search using a TMDB content ID instead of a search term
 

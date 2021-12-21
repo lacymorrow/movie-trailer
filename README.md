@@ -83,7 +83,7 @@ movieTrailer( 'Oceans Eleven', 1960 )
 
 	* ##### `apiKey`
 
-		Type: `boolean` 
+		Type: `string` 
 
 		_(optional)_ Use your own TMDB api key. You can get a free key here: https://developers.themoviedb.org/ .
 
@@ -111,7 +111,7 @@ movieTrailer( 'Oceans Eleven', 1960 )
 
 	* ##### `tmdbId`
 
-		Type: `boolean` 
+		Type: `string` || `number` 
 
 		_(optional)_ Search using a TMDB content ID instead of a search term
 

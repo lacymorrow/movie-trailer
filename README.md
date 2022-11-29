@@ -11,6 +11,7 @@
  * Fetch Youtube trailers for any movie
  * Return one or many trailer URLs
  * Use anywhere, browser or Node - UMD _([Browser Support](https://caniuse.com/#feat=fetch))_
+ * Works in React + NextJS client/server (uses [isomorphic-fetch](https://www.npmjs.com/package/isomorphic-fetch))
  * Async/await, Promise and Callback APIs
 
 

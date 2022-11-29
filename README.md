@@ -96,6 +96,16 @@ movieTrailer( 'Oceans Eleven', 1960 )
 		_(optional)_ Return only Youtube video IDs.
 
 		_Use `-i` or `--id` on the CLI_
+		
+	
+	* ##### `language`
+
+		Type: `string` (_language code_)
+
+		_(optional)_ Movie release language.
+
+		_Use `-l` or `--language` on the CLI_
+		
 
 	* ##### `multi` _(`false`)_
 

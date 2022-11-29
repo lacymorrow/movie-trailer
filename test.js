@@ -1,6 +1,6 @@
 'use strict'
-import test from 'ava'
-import movieTrailer from './index.js'
+const test = require( 'ava' )
+const movieTrailer = require( './index' )
 
 test( 'fetch movie trailer', async t => {
 
@@ -15,11 +15,8 @@ test( 'fetch movie trailer', async t => {
 
 test( 'dont fetch empty search', async t => {
 
-	// Testing no search quety, should error
-	const error = await t.throws( movieTrailer( null )
-		.catch( error_ => Promise.reject( error_ ) )
-	)
-
+	// Testing no search query, should error
+	const error = await movieTrailer( null ).catch( error_ => error_ )
 	t.is( error.message, 'Expected first parameter to be a movie or TMDB ID (string)' )
 
 } )
@@ -62,7 +59,7 @@ test( 'fetch movie trailer with language', async t => {
 	t.plan( 1 )
 
 	const trailer = await movieTrailer( 'up' )
-	const trailerDE = await movieTrailer( 'up', { language: 'de_DE' } )
+	const trailerDE = await movieTrailer( 'up', { language: 'de' } )
 
 	t.not( trailer, trailerDE, 'returns a language-specific video' )
 
@@ -126,83 +123,55 @@ test( 'fetch using a custom api_key', async t => {
 
 } )
 
-test.cb( 'calls the callback', t => {
+test( 'calls the callback', async t => {
 
 	t.plan( 2 )
 
-	movieTrailer( 'oceans eleven', ( error, result ) => {
-
-		if ( error ) {
-
-			return t.end( error )
-
-		}
+	await movieTrailer( 'oceans eleven', ( _error, result ) => {
 
 		t.is( result.indexOf( 'http' ), 0, 'returns a url' )
 		t.not( result.indexOf( 'youtube' ), -1, 'returns a youtube url' )
-		t.end()
 
 	} )
 
 } )
 
-test.cb( 'calls the callback with a year', t => {
+test( 'calls the callback with a year', async t => {
 
 	t.plan( 2 )
 
-	movieTrailer( 'oceans eleven', 1960, ( error, result ) => {
-
-		if ( error ) {
-
-			return t.end( error )
-
-		}
+	await movieTrailer( 'oceans eleven', 1960, ( _error, result ) => {
 
 		t.is( result.indexOf( 'http' ), 0, 'returns a url' )
 		t.not( result.indexOf( 'youtube' ), -1, 'returns a youtube url' )
-		t.end()
 
 	} )
 
 } )
 
-test.cb( 'calls the callback with multiple trailers', t => {
+test( 'calls the callback with multiple trailers', async t => {
 
 	t.plan( 3 )
 
-	movieTrailer( 'oceans eleven', true, ( error, result ) => {
-
-		if ( error ) {
-
-			return t.end( error )
-
-		}
+	await movieTrailer( 'oceans eleven', true, ( _error, result ) => {
 
 		t.is( typeof result, 'object' )
 		t.is( result[0].indexOf( 'http' ), 0, 'returns a url' )
 		t.not( result[0].indexOf( 'youtube' ), -1, 'returns a youtube url' )
-		t.end()
 
 	} )
 
 } )
 
-test.cb( 'calls the callback with a year and multiple trailers', t => {
+test( 'calls the callback with a year and multiple trailers', async t => {
 
 	t.plan( 3 )
 
-	movieTrailer( 'oceans eleven', { multi: true, year: 1960 }, ( error, result ) => {
-
-		if ( error ) {
-
-			return t.end( error )
-
-		}
+	await movieTrailer( 'oceans eleven', { multi: true, year: 1960 }, ( _error, result ) => {
 
 		t.is( typeof result, 'object' )
 		t.is( result[0].indexOf( 'http' ), 0, 'returns a url' )
 		t.not( result[0].indexOf( 'youtube' ), -1, 'returns a youtube url' )
-		t.end()
 
 	} )
 

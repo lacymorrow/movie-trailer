@@ -9,13 +9,24 @@
     "type": "git",
     "url": "git://github.com/lacymorrow/movie-trailer"
   },
-  "bin": {
-    "movie-trailer": "cli.js"
-  },
   "author": {
     "name": "Lacy Morrow",
     "email": "me@lacymorrow.com",
     "url": "http://lacymorrow.com"
+  },
+  "funding": [
+    {
+      "type": "patreon",
+      "url": "https://patreon.com/lacymorrow"
+    },
+    {
+      "type": "individual",
+      "url": "http://lacymorrow.com/donate"
+    },
+    "https://www.buymeacoffee.com/lm"
+  ],
+  "bin": {
+    "movie-trailer": "cli.js"
   },
   "engines": {
     "node": ">=7.6.0"
@@ -39,19 +50,18 @@
     "uri",
     "path"
   ],
-  "devDependencies": {
-    "ava": "^0.25.0"
-  },
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/lacymorrow/movie-trailer/issues"
   },
   "homepage": "https://github.com/lacymorrow/movie-trailer",
+  "devDependencies": {
+    "ava": "^5.1.0"
+  },
   "dependencies": {
-    "isomorphic-fetch": "^2.2.1",
+    "isomorphic-fetch": "^3.0.0",
     "meow": "^4.0.0",
-    "node-fetch": "^2.1.2",
-    "np": "^7.2.0",
+    "np": "^7.6.2",
     "xo": "^0.37.1"
   },
   "np": {

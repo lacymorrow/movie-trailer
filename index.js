@@ -52,8 +52,9 @@
 	function getMovieId( search, options ) {
 
 		/* Fetch a Movie ID for querying the TMDB API */
+		const param =  options.videoType === 'tv' ? '/3/search/tv?api_key=': '/3/search/movie?api_key='
 
-		const endpoint = 'https://api.themoviedb.org' + encodeURI( '/3/search/movie?api_key=' + options.apiKey + '&query=' + search + ( ( options.year === null ) ? '' : '&year=' + options.year ) + ( ( options.language === null ) ? '' : '&language=' + options.language ) )
+		const endpoint = 'https://api.themoviedb.org' + encodeURI( param + options.apiKey + '&query=' + search + ( ( options.year === null ) ? '' : '&year=' + options.year ) + ( ( options.language === null ) ? '' : '&language=' + options.language )  )
 		const result = fetch( endpoint, {
 			method: 'GET'
 		} )
@@ -70,7 +71,7 @@
 
 					// Retry failed search without year
 					if ( options.year !== null ) {
-						
+
 						const { year, ...rest } = options
 						return getMovieId( search, rest);
 
@@ -99,9 +100,10 @@
 	}
 
 	function getTrailer( movieId, options ) {
+		const param =  options.videoType === 'tv' ? '/3/tv/': '/3/movie/'
 
 		/* Fetch single or multiple movie trailers via the TMDB API */
-		const endpoint = 'https://api.themoviedb.org' + encodeURI( '/3/movie/' + movieId + '/videos?api_key=' + options.apiKey + ( ( options.language === null ) ? '' : '&language=' + options.language ) )
+		const endpoint = 'https://api.themoviedb.org' + encodeURI( param + movieId + '/videos?api_key=' + options.apiKey + ( ( options.language === null ) ? '' : '&language=' + options.language ) )
 		const result = fetch( endpoint, {
 			method: 'GET'
 		} )
@@ -164,6 +166,7 @@
 			id: false,
 			year: null,
 			language: null,
+			videoType: 'movie', // Added videoType property
 
 			// Public Key on purpose
 			apiKey: '9d2bff12ed955c7f1f74b83187f188ae'

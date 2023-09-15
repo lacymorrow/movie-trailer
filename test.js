@@ -13,6 +13,17 @@ test( 'fetch movie trailer', async t => {
 
 } )
 
+test( 'fetch tv trailer', async t => {
+
+	t.plan( 2 )
+
+	const trailer = await movieTrailer( 'shameless', { videoType: 'tv' } )
+
+	t.is( trailer.indexOf( 'http' ), 0, 'returns a url' )
+	t.not( trailer.indexOf( 'youtube' ), -1, 'returns a youtube url' )
+
+} )
+
 test( 'dont fetch empty search', async t => {
 
 	// Testing no search query, should error

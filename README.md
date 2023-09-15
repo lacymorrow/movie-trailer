@@ -9,7 +9,7 @@
 
 
 ## Features
- * Fetch Youtube trailers for any movie
+ * Fetch Youtube trailers for any movie or TV show
  * Return one or many trailer URLs
  * Use anywhere, browser or Node - UMD _([Browser Support](https://caniuse.com/#feat=fetch))_
  * Works in React + NextJS client/server (uses [isomorphic-fetch](https://www.npmjs.com/package/isomorphic-fetch))
@@ -39,6 +39,12 @@ In the browser:
 const movieTrailer = require( 'movie-trailer' ) // or import movieTrailer from 'movie-trailer'
 
 await movieTrailer( 'Up' )
+//=> https://www.youtube.com/watch?v=...
+```
+
+##### TV Shows
+```js
+movieTrailer('Shameless', {videoType: 'tv'})
 //=> https://www.youtube.com/watch?v=...
 ```
 

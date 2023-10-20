@@ -1,5 +1,5 @@
 # movie-trailer [<img src="https://github.com/lacymorrow/crossover/raw/master/src/static/meta/patreon-button.webp" style="height:40px;" height="40" align="right" />](https://www.patreon.com/bePatron?u=55065733)
-[![npm version](https://badge.fury.io/js/movie-trailer.svg)](https://badge.fury.io/js/movie-trailer) [![Try movie-trailer on RunKit](https://badge.runkitcdn.com/movie-trailer.svg)](https://npm.runkit.com/movie-trailer) [![Maintainability](https://api.codeclimate.com/v1/badges/8dce3031d73c7beb9c98/maintainability)](https://codeclimate.com/github/lacymorrow/movie-trailer/maintainability)
+[![npm version](https://badge.fury.io/js/movie-trailer.svg)](https://badge.fury.io/js/movie-trailer) [![Maintainability](https://api.codeclimate.com/v1/badges/8dce3031d73c7beb9c98/maintainability)](https://codeclimate.com/github/lacymorrow/movie-trailer/maintainability) [![Try movie-trailer on RunKit](https://badge.runkitcdn.com/movie-trailer.svg)](https://npm.runkit.com/movie-trailer)
 
 > Fetch movie trailer url(s): "Oceans Eleven" ➔ https://www.youtube.com/watch?v=...
 

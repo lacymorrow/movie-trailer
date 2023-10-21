@@ -61,7 +61,7 @@
   "dependencies": {
     "isomorphic-fetch": "^3.0.0",
     "meow": "^4.0.0",
-    "np": "^7.6.2",
+    "np": "^7.7.0",
     "xo": "^0.37.1"
   },
   "np": {

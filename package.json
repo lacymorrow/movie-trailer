@@ -62,7 +62,7 @@
   },
   "dependencies": {
     "isomorphic-fetch": "^3.0.0",
-    "meow": "^4.0.0"
+    "meow": "^6.0.0"
   },
   "np": {
     "publish": true,

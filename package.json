@@ -41,14 +41,18 @@
     "index.js"
   ],
   "keywords": [
-    "cli",
-    "bin",
-    "app",
     "movie",
+    "movies",
+    "tv",
+    "television",
     "trailer",
-    "url",
-    "uri",
-    "path"
+    "trailers",
+    "youtube",
+    "video",
+    "tmdb",
+    "themoviedb",
+    "cli",
+    "bin"
   ],
   "readmeFilename": "README.md",
   "bugs": {

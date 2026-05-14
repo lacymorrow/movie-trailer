@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+  <title>movie-trailer</title>
+  <!-- Rounded square — violet (trailer/preview) -->
+  <rect x="16" y="16" width="224" height="224" rx="48" fill="#7c3aed"/>
+  <!-- Double play arrows (fast-forward / preview / trailer) -->
+  <g fill="#ffffff">
+    <path d="M68 80 L68 176 L132 128 Z"/>
+    <path d="M138 80 L138 176 L202 128 Z"/>
+  </g>
+</svg>

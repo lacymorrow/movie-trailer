@@ -1,5 +1,5 @@
 name: Bug report
-description: movie-trailer returned the wrong image, an error, or nothing
+description: movie-trailer returned the wrong trailer URL, an error, or no result
 labels: ["bug"]
 body:
   - type: input

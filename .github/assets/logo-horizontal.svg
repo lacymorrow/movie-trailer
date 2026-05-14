@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 200" fill="none">
+  <title>movie-trailer</title>
+  <g transform="translate(20, 20)">
+    <rect x="0" y="0" width="160" height="160" rx="34" fill="#7c3aed"/>
+    <g fill="#ffffff">
+      <path d="M40 50 L40 110 L78 80 Z"/>
+      <path d="M82 50 L82 110 L120 80 Z"/>
+    </g>
+  </g>
+  <text
+    x="210"
+    y="132"
+    font-family="ui-sans-serif, system-ui, -apple-system, 'Inter', 'Segoe UI', Roboto, sans-serif"
+    font-size="120"
+    font-weight="800"
+    letter-spacing="-6"
+    fill="#1a0b1f"
+  >movie-trailer</text>
+</svg>

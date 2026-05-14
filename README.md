@@ -1,199 +1,152 @@
-> [!IMPORTANT]  
-> This library is considered **feature-complete** and will only receive updates for bug fixes. You may still create an issue if you have a feature request.
+<div align="center">
+  <a href="https://github.com/lacymorrow/movie-trailer">
+    <img src="https://raw.githubusercontent.com/lacymorrow/movie-trailer/master/.github/assets/logo-horizontal.svg" alt="movie-trailer" width="360">
+  </a>
 
-# movie-trailer [<img src="https://github.com/lacymorrow/crossover/raw/master/src/static/meta/patreon-button.webp" style="height:40px;" height="40" align="right" />](https://www.patreon.com/bePatron?u=55065733)
-[![npm version](https://badge.fury.io/js/movie-trailer.svg)](https://badge.fury.io/js/movie-trailer) [![Maintainability](https://api.codeclimate.com/v1/badges/8dce3031d73c7beb9c98/maintainability)](https://codeclimate.com/github/lacymorrow/movie-trailer/maintainability) [![Try movie-trailer on RunKit](https://badge.runkitcdn.com/movie-trailer.svg)](https://npm.runkit.com/movie-trailer)
+  <p><strong>Find YouTube trailer URLs for any movie or TV show</strong> ➔ "Up" → https://www.youtube.com/watch?v=…</p>
 
-> Fetch movie trailer url(s): "Oceans Eleven" ➔ https://www.youtube.com/watch?v=...
+  <p>
+    <a href="https://www.npmjs.com/package/movie-trailer"><img alt="npm version" src="https://img.shields.io/npm/v/movie-trailer?style=flat"></a>
+    <a href="https://www.npmjs.com/package/movie-trailer"><img alt="npm downloads" src="https://img.shields.io/npm/dm/movie-trailer?style=flat"></a>
+    <a href="https://github.com/lacymorrow/movie-trailer/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/lacymorrow/movie-trailer/ci.yml?style=flat&label=CI"></a>
+    <a href="./LICENSE"><img alt="License" src="https://img.shields.io/npm/l/movie-trailer?style=flat"></a>
+    <a href="https://npm.runkit.com/movie-trailer"><img alt="Try on RunKit" src="https://img.shields.io/badge/Try-RunKit-f55fa6?style=flat"></a>
+  </p>
 
-[![movie-trailer](https://github.com/lacymorrow/movie-trailer/raw/master/demo.svg?sanitize=true)]()
+  <img src="./demo.svg?sanitize=true" alt="movie-trailer demo" width="700">
+</div>
 
-#### [Try it on RunKit](https://runkit.com/lacymorrow/movie-trailer) _([Output](https://runkit.io/lacymorrow/movie-trailer/branches/master?search=Avatar))_
+---
 
+> [!IMPORTANT]
+> This library is **feature-complete** and only receives bug-fix updates. Feature requests still welcome — please open an issue.
 
 ## Features
- * Fetch Youtube trailers for any movie or TV show
- * Return one or many trailer URLs
- * Use anywhere, browser or Node - UMD _([Browser Support](https://caniuse.com/#feat=fetch))_
- * Works in React + NextJS client/server (uses [isomorphic-fetch](https://www.npmjs.com/package/isomorphic-fetch))
- * Async/await, Promise and Callback APIs
 
+- Fetch YouTube trailers for any movie or TV show
+- Return one URL or many — videos, IDs, or full URLs
+- Async/await, Promise, **and** callback API
+- Use anywhere — browser or Node, UMD bundle ([browser support](https://caniuse.com/#feat=fetch))
+- Works in React + Next.js, client and server, via [isomorphic-fetch](https://www.npmjs.com/package/isomorphic-fetch)
+- Bring your own TMDB API key, or use the default
 
 ## Install
 
-Using [NPM](https://npmjs.com):
-
 ```bash
-npm install --save movie-trailer
+npm install movie-trailer
 ```
 
 In the browser:
 
 ```html
-<!-- movieTrailer window global -->
-<script type="text/javascript" src="https://unpkg.com/movie-trailer"></script>
+<!-- movieTrailer as a window global -->
+<script src="https://unpkg.com/movie-trailer"></script>
 ```
-(via Unpkg, or via [JSDelivr](https://cdn.jsdelivr.net/npm/movie-trailer/index.min.js))
 
+Also available via [JSDelivr](https://cdn.jsdelivr.net/npm/movie-trailer/index.min.js).
 
 ## Usage
 
 ```js
-const movieTrailer = require( 'movie-trailer' ) // or import movieTrailer from 'movie-trailer'
+const movieTrailer = require("movie-trailer");
+// or: import movieTrailer from "movie-trailer";
 
-await movieTrailer( 'Up' )
+await movieTrailer("Up");
 //=> https://www.youtube.com/watch?v=...
 ```
 
-##### TV Shows
+### TV shows
+
 ```js
-movieTrailer('Shameless', {videoType: 'tv'})
+await movieTrailer("Shameless", { videoType: "tv" });
 //=> https://www.youtube.com/watch?v=...
 ```
 
-##### Return an array of video IDs
+### Many trailers — IDs only
+
 ```js
-movieTrailer( 'Oceans Eleven', {id: true, multi: true} )
-  .then( response => console.log( response ) )
-  
-//=> [ 'XXXXXXXXX', 'XXXXXXXXX', ... ]
+await movieTrailer("Oceans Eleven", { id: true, multi: true });
+//=> ["XXXXXXXXX", "XXXXXXXXX", ...]
 ```
 
-##### Both
-```js
-movieTrailer( 'Oceans Eleven', {year: '1960', multi: true} )
-  .then( response => console.log( response ) )
+### Year disambiguation + multiple URLs
 
-//=> [ https://www.youtube.com/watch?v=XXXXXXXXX, ... ]
+```js
+await movieTrailer("Oceans Eleven", { year: "1960", multi: true });
+//=> ["https://www.youtube.com/watch?v=...", ...]
 ```
 
-##### Legacy-style search using release date year
-```js
-movieTrailer( 'Oceans Eleven', 1960 )
-  .then( response => console.log( response ) )
+### Legacy positional year
 
-//=> http://path/to/trailer
+```js
+await movieTrailer("Oceans Eleven", 1960);
+//=> https://www.youtube.com/watch?v=...
 ```
+
+> [!TIP]
+> Try it live — [open in RunKit](https://runkit.com/lacymorrow/movie-trailer) ([example output](https://runkit.io/lacymorrow/movie-trailer/branches/master?search=Avatar)).
 
 ## API
 
-### movieTrailer(movie [, options ] [, callback])
+### `movieTrailer(movie [, options] [, callback])`
 
-* #### movie
+Pass a movie or show title (or `null` if searching by `tmdbId`). Returns a Promise that resolves to a YouTube URL — or an array of URLs / IDs depending on `options`.
 
-	**Required**
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `apiKey` | `string` | TMDB default | Use your own TMDB key — [get one free](https://developers.themoviedb.org/) |
+| `id` | `boolean` | `false` | Return only YouTube video IDs (e.g. `"abc123"` instead of full URLs) |
+| `language` | `string` | | Movie release language code (e.g. `"de_DE"`) |
+| `multi` | `boolean` | `false` | Return an array of results instead of a single result |
+| `tmdbId` | `string \| number` | | Search by TMDB content ID instead of a title (pass `null` as the first argument) |
+| `year` | `string \| number` | | Release-year disambiguator |
+| `videoType` | `"movie" \| "tv"` | `"movie"` | Movie or TV search |
 
-	Type: `string`
+The third argument may also be a Node-style `(err, response) => void` callback.
 
-	Movie to search for. If searching with a `tmdbId`, pass `null`.
+### Search by TMDB ID
 
-
-* #### options 
-
-	Type: `object`
-
-	* ##### `apiKey`
-
-		Type: `string` 
-
-		_(optional)_ Use your own TMDB api key. You can get a free key here: https://developers.themoviedb.org/ .
-
-		_Use `-a` or `--api_key` on the CLI_
-
-	* ##### `id` _(`false`)_
-
-		Type: `boolean` 
-
-		_(optional)_ Return only Youtube video IDs.
-
-		_Use `-i` or `--id` on the CLI_
-		
-	
-	* ##### `language`
-
-		Type: `string` (_language code_)
-
-		_(optional)_ Movie release language.
-
-		_Use `-l` or `--language` on the CLI_
-		
-
-	* ##### `multi` _(`false`)_
-
-		Type: `boolean` 
-
-		_(optional)_ Return an array of urls vs a single url.
-
-		_Use `-m` or `--multi` on the CLI_
-
-		```js
-		movieTrailer( 'Oceans Eleven', { multi: true } )
-		```
-
-	* ##### `tmdbId`
-
-		Type: `string` || `number` 
-
-		_(optional)_ Search using a TMDB content ID instead of a search term
-
-		_Use `-t` or `--tmdb_id` on the CLI_
-
-		```js
-		movieTrailer( null, { tmdbId: 161 } )  // Content ID for "Ocean's Eleven"
-		```
-
-	* ##### `year`
-
-		Type: `string` || `number`
-
-		_(optional)_ Movie release year.
-
-		_Use `-y` or `--year` on the CLI_
-
-
-* #### callback(error, response)
-
-	Callback function.
-
-	```js
-	movieTrailer( 'Oceans Eleven', ( error, response ) => {
-	    console.log( response ); 
-	    //=> http://path/to/trailer
-	} )
-	```
-
-
-#### From the command line
-
-```bash
-$ npx movie-trailer --help
-
-Usage
-	$ npx movie-trailer movie 	
-
-Options
-	--api_key   -k   (optional) Your own TMDB API key: http://developers.themoviedb.org
-	--id        -i   Return just the Youtube video ID.
-	--language, -l   Specify a language code (eg: 'de_DE').
-	--multi,    -m   Returns an array of URLs instead of a single URL.
-	--tmdb_id   -t   Specify an explicit TMDB ID.
-	--year,     -y   Specify a release year to search.
-
-Example
-	$ npx movie-trailer 'Oceans Eleven' -y 1960 -m
-	//=> http://path/to/trailer
+```js
+await movieTrailer(null, { tmdbId: 161 });  // Ocean's Eleven
 ```
 
+## CLI
+
+```bash
+npx movie-trailer --help
+#  Usage
+#    $ npx movie-trailer movie
+#
+#  Options
+#    --api_key, -k   Your own TMDB API key
+#    --id,      -i   Return just the YouTube video ID
+#    --language,-l   Language code (e.g. 'de_DE')
+#    --multi,   -m   Return an array of URLs
+#    --tmdb_id, -t   Search by TMDB ID
+#    --year,    -y   Release year
+#
+#  Example
+#    $ npx movie-trailer 'Oceans Eleven' -y 1960 -m
+#    => https://www.youtube.com/watch?v=...
+```
 
 ## Related
 
-* [album-art](https://github.com/lacymorrow/album-art)
-* [movie-art](https://github.com/lacymorrow/movie-art)
-* [movie-info](https://github.com/lacymorrow/movie-info)
+Part of a small family of media-data utilities:
 
+- [album-art](https://github.com/lacymorrow/album-art) — Fetch album and artist cover art.
+- [movie-art](https://github.com/lacymorrow/movie-art) — Get the poster art for a movie.
+- [movie-info](https://github.com/lacymorrow/movie-info) — Get info, images, and ratings about a movie.
+
+## Acknowledgments
+
+- [TMDB](https://www.themoviedb.org) — trailer metadata (subject to the [TMDB Terms of Service](https://www.themoviedb.org/documentation/api/terms-of-use)).
+- [YouTube](https://www.youtube.com) — where the trailers actually live.
 
 ## License
 
-This package uses data from TMDB. You may consult [TMDB terms of service](https://www.themoviedb.org/documentation/api/terms-of-use) for usage rights.
+[MIT](./LICENSE) © [Lacy Morrow](https://lacymorrow.com)
 
-[MIT](http://opensource.org/licenses/MIT) © [Lacy Morrow](http://lacymorrow.com)
+<div align="center">
+  <sub>If movie-trailer saved you time, consider <a href="https://github.com/sponsors/lacymorrow">sponsoring on GitHub</a>, <a href="https://patreon.com/lacymorrow">supporting on Patreon</a>, or <a href="https://buymeacoffee.com/lm">buying a coffee</a>.</sub>
+</div>

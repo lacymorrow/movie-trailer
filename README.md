@@ -1,6 +1,9 @@
 <div align="center">
   <a href="https://github.com/lacymorrow/movie-trailer">
-    <img src="https://raw.githubusercontent.com/lacymorrow/movie-trailer/master/.github/assets/logo-horizontal.svg" alt="movie-trailer" width="360">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/lacymorrow/movie-trailer/master/.github/assets/logo-horizontal-dark.svg">
+      <img src="https://raw.githubusercontent.com/lacymorrow/movie-trailer/master/.github/assets/logo-horizontal.svg" alt="movie-trailer" width="360">
+    </picture>
   </a>
 
   <p><strong>Find YouTube trailer URLs for any movie or TV show</strong> ➔ "Up" → https://www.youtube.com/watch?v=…</p>

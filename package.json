@@ -62,7 +62,7 @@
   "devDependencies": {
     "ava": "^8.0.0",
     "np": "^11.2.1",
-    "xo": "^0.56.0"
+    "xo": "^2.0.2"
   },
   "dependencies": {
     "isomorphic-fetch": "^3.0.0",

@@ -61,7 +61,7 @@
   "homepage": "https://github.com/lacymorrow/movie-trailer",
   "devDependencies": {
     "ava": "^8.0.0",
-    "np": "^8.0.4",
+    "np": "^11.2.1",
     "xo": "^0.56.0"
   },
   "dependencies": {

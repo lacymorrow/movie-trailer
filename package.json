@@ -7,7 +7,7 @@
   "browser": "index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/lacymorrow/movie-trailer"
+    "url": "git://github.com/lacymorrow/movie-trailer.git"
   },
   "author": {
     "name": "Lacy Morrow",

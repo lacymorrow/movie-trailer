@@ -3804,9 +3804,9 @@ normalize-package-data@^8.0.0:
     validate-npm-package-license "^3.0.4"
 
 np@^11.2.1:
-  version "11.2.1"
-  resolved "https://registry.yarnpkg.com/np/-/np-11.2.1.tgz#371887c97c2bfe1235477702daa4d2fc951f37eb"
-  integrity sha512-OBvNC8ipTHzRNY44opIUxptDaI1NukIBxVvof2vvLe8XLfw87TyfOdR6/QYSQEMqtRSL0XkNj0N/6Bsn//S6Qg==
+  version "11.2.2"
+  resolved "https://registry.yarnpkg.com/np/-/np-11.2.2.tgz#bab08faa1bb363b67fb27bc85cc18737aaf02d63"
+  integrity sha512-xUenmoodkCbegO6QL0bApryA2AWb4I6CSq6dyEDDQ5MeSdRTE/qY2DWsoQrD3xJdbK+r54wmDJuWPDpE7iKGSQ==
   dependencies:
     chalk "^5.6.2"
     chalk-template "^1.1.2"
@@ -4395,12 +4395,7 @@ scslre@^0.3.0:
     refa "^0.12.0"
     regexp-ast-analysis "^0.7.0"
 
-semver@^7.3.2, semver@^7.3.5, semver@^7.5.3, semver@^7.5.4, semver@^7.6.0, semver@^7.6.3, semver@^7.7.2, semver@^7.7.3, semver@^7.7.4:
-  version "7.8.0"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-7.8.0.tgz#ed0661039fcbcda2ce71f01fa6adbefaa77040df"
-  integrity sha512-AcM7dV/5ul4EekoQ29Agm5vri8JNqRyj39o0qpX6vDF2GZrtutZl5RwgD1XnZjiTAfncsJhMI48QQH3sN87YNA==
-
-semver@^7.7.1, semver@^7.8.2, semver@^7.8.4:
+semver@^7.3.2, semver@^7.3.5, semver@^7.5.3, semver@^7.5.4, semver@^7.6.0, semver@^7.6.3, semver@^7.7.1, semver@^7.7.2, semver@^7.7.3, semver@^7.7.4, semver@^7.8.2, semver@^7.8.4:
   version "7.8.5"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.8.5.tgz#39b646037dd50c14fb451e7e4cac58ed8b863f69"
   integrity sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==

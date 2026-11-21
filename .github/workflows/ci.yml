@@ -40,3 +40,12 @@ jobs:
 
       - name: CLI entry is executable
         run: node -e "require('fs').accessSync('./cli.js')"
+
+      - name: CLI starts and reports its version
+        run: |
+          BIN=$(node -p "require('./package.json').bin['movie-trailer']")
+          node "$BIN" --help
+          test "$(node "$BIN" --version)" = "$(node -p "require('./package.json').version")"
+
+      - name: CLI flags parse (long and short, network-free)
+        run: node scripts/cli-flags-check.js

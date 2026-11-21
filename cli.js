@@ -59,39 +59,39 @@ const options = {
 	year: null
 }
 
-if ( cli.flags.i ) {
+if ( cli.flags.id ) {
 
-	options.id = Boolean( cli.flags.i )
-
-}
-
-if ( cli.flags.k ) {
-
-	options.apiKey = cli.flags.k
+	options.id = Boolean( cli.flags.id )
 
 }
 
-if ( cli.flags.l ) {
+if ( cli.flags.apiKey ) {
 
-	options.language = cli.flags.l
-
-}
-
-if ( cli.flags.m ) {
-
-	options.multi = Boolean( cli.flags.m )
+	options.apiKey = cli.flags.apiKey
 
 }
 
-if ( cli.flags.t ) {
+if ( cli.flags.language ) {
 
-	options.tmdbId = cli.flags.t
+	options.language = cli.flags.language
 
 }
 
-if ( cli.flags.y ) {
+if ( cli.flags.multi ) {
 
-	options.year = cli.flags.y
+	options.multi = Boolean( cli.flags.multi )
+
+}
+
+if ( cli.flags.tmdbId ) {
+
+	options.tmdbId = cli.flags.tmdbId
+
+}
+
+if ( cli.flags.year ) {
+
+	options.year = cli.flags.year
 
 }
 
